@@ -1,0 +1,99 @@
+.profile {
+  max-width: var(--display-width);
+  margin: 0 auto;
+}
+
+.content {
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  padding: 15px;
+
+  &_image {
+    position: relative;
+
+    &Button {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &_info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    &Profile {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &Progress {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 350px;
+
+      &All {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &Status {
+        display: flex;
+
+        &Info {
+          padding: 15px;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          &Title{
+            display: flex;
+            justify-content: space-between;
+          }
+
+          &Progress{
+            height: 30px;
+            width: 100%;
+            background-color: aqua;
+            border-radius: 100px;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 920px) {
+  .content{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+
+    &_info{
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .content{
+
+
+    &_image{
+      height: 250px;
+    }
+  }
+}

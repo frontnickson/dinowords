@@ -1,0 +1,49 @@
+.progress {
+  max-width: var(--display-width);
+  margin: 0 auto;
+}
+
+.content {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+
+  &_progress {
+    display: flex;
+    gap: 20px;
+    width: 500px;
+    margin-top: 50px;
+
+    &Title {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    &Progress {
+      height: 30px;
+      width: 100%;
+      background-color: aqua;
+      border-radius: 100px;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .content {
+
+    &_progress {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+
+      &Image{
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+}

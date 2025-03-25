@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    /* colors */
+    --mint-breeze: #BCF0DA;
+    --sunny-lemon: #FEF268;
+    --sky-mist: #d9f0f9;
+    --lavender-dream: #E8C0FF;
+    --neon-mint: #80FFB6;
+    --soft-violet: #A99FFF;
+    --icy-blue: #BCEFFF;
+    --element-grey: #F2F2F2;
+    --btn: #49AF08;
+    --btn-shadow: #D7FF5C;
+    --btn-footer: #616161;
+    /* text */
+    --gap-text: 10px;
+    --font-size: 16px;
+    /* width */
+    --display-width: 1400px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn {
+    background-color: #49AF08;
+    width: 222px;
+    height: 48px;
+    border-radius: 17px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 3px solid black;
+}
+
+.btn:hover {
+    transition: 0.3s;
+    background-color: #6bdc24;
+    cursor: pointer;
+}
+
+.btn:active {
+    transition: 0.3s;
+    background-color: #49AF08;
+    cursor: pointer;
+    border-bottom: 1px solid black;
+}
+
+.btn-big {
+    background-color: #49AF08;
+    width: 353px;
+    height: 75px;
+    border-radius: 17px;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    border-bottom: 5px solid black;
+    margin-top: 30px;
+}
+
+.btn-big:hover {
+    transition: 0.3s;
+    background-color: #6bdc24;
+    cursor: pointer;
+}
+
+.btn-big:active {
+    transition: 0.3s;
+    background-color: #49AF08;
+    cursor: pointer;
+    border-bottom: 1px solid black;
+}
+
+.btn-mobile {
+    background-color: #49AF08;
+    width: 222px;
+    height: 48px;
+    border-radius: 17px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 3px solid black;
+    cursor: pointer;
+}
+
+.btn-mobile:hover {
+    transition: 0.3s;
+    background-color: #6bdc24;
+    cursor: pointer;
+}
+
+.btn-mobile:active {
+    transition: 0.3s;
+    background-color: #49AF08;
+    cursor: pointer;
+    border-bottom: 1px solid black;
+}
+
+
+
+@media (max-width: 960px) {
+    .btn {
+        display: none;
+    }
+
+    .btn-big {
+        width: 222px;
+        height: 48px;
+        font-size: 20px;
+    }
+}

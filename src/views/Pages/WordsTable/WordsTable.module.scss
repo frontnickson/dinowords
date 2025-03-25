@@ -1,0 +1,57 @@
+.words {
+  max-width: var(--display-width);
+  margin: 0 auto;
+}
+
+.content {
+
+    &_search{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 15px;
+
+        &Input{
+            width: 400px;
+            height: 40px;
+            border-radius: 50px;
+            padding-left: 15px;
+        }
+    }
+
+    &_words{
+
+        padding: 15px;
+
+        &Item{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            height: 100%;
+        }
+
+        &List{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--sky-mist);
+            padding: 15px;
+            border-radius: 30px;
+            height: 50px;
+            
+            &Element{
+                width: 150px;
+                text-align: center;
+            }
+        }
+    }
+
+    &_button{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 30px 0px;
+    }
+}
