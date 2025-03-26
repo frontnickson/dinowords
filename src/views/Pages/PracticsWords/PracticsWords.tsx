@@ -1,9 +1,11 @@
 import React from 'react';
 
+import styles from './PracticsWords.module.scss'
+
 const PracticsWords: React.FC = () => {
   return (
-    <div>
-      PracticsWords
+    <div className={styles.practics}>
+
     </div>
   );
 };
