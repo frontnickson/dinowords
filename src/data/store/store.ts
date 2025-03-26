@@ -3,11 +3,9 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import userSlice from '../../data/slices/userSlice'
-import wordsSlice from '../../data/slices/wordsSlice'
 
 const rootRedusers = combineReducers({
     user: userSlice,
-    words: wordsSlice
 })
 
 const persistConfig = {

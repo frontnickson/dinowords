@@ -7,6 +7,8 @@ import AboutPage from '../../Pages/AboutPage/AboutPage';
 import StartPage from '../../Pages/StartPage/StartPage';
 import RegistrationPage from '../../Pages/RegistrationPage/RegistrationPage';
 import LogPage from '../../Pages/LogPage/LogPage';
+import QuestionPage from '../../Pages/QuestionPage/QuestionPage';
+import LevelPage from '../../Pages/LevelPage/LevelPage';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -18,6 +20,8 @@ const AppRoutes: React.FC = () => {
       <Route path='/about' element={<AboutPage />} />
       <Route path='/registration' element={<RegistrationPage />} />
       <Route path='/login' element={<LogPage />} />
+      <Route path='/quest' element={<QuestionPage />} />
+      <Route path='/level' element={<LevelPage />} />
     </Routes>
   );
 };

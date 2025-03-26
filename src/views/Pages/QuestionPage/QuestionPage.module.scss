@@ -1,0 +1,44 @@
+.container {
+  max-width: var(--display-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px;
+  gap: 50px;
+
+  &_buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &Service {
+      border: none;
+      border-radius: 15px;
+      height: 50px;
+      width: 180px;
+      background-color: var(--lavender-dream);
+      cursor: pointer;
+    }
+
+    &Service:hover {
+      background-color: var(--soft-violet);
+    }
+
+    &ServiceDisabled {
+      border: none;
+      border-radius: 15px;
+      height: 50px;
+      width: 180px;
+      background-color: var(--btn-footer);
+      color: white;
+      cursor: none;
+    }
+  }
+}

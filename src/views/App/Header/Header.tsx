@@ -15,7 +15,7 @@ import styles from './Header.module.scss'
 const Header: React.FC = () => {
 
   const [menu, setMenu] = useState<boolean>(false)
-  const [opactiy, setOpactiy] = useState({ opacity: 0})
+  const [opactiy, setOpactiy] = useState({ opacity: 0 })
 
   const handleClick = () => {
     setOpactiy({ opacity: 0 });
@@ -41,8 +41,8 @@ const Header: React.FC = () => {
     <header className={styles.header}>
 
       <div className={styles.content}>
-        <Link to="/about" style={{display: "flex", alignItems: "center"}}>
-          <img src={logo} alt='logo' className={styles.content_logo}/>
+        <Link to="/about" style={{ display: "flex", alignItems: "center" }}>
+          <img src={logo} alt='logo' className={styles.content_logo} />
         </Link>
 
         <div className={styles.content_con}>
@@ -69,7 +69,9 @@ const Header: React.FC = () => {
             </ul>
           </nav>
 
-          <button className='btn'>Начать практику</button>
+          <Link to="/quest">
+            <button className='btn'>Начать практику</button>
+          </Link>
 
           <img className={styles.content_burger} src={burgerMenu} alt='menu' onClick={() => { setMenu(true); handleClick() }} />
 
@@ -99,7 +101,9 @@ const Header: React.FC = () => {
               </Link>
 
             </ul>
-            <button className='btn-mobile'>Начать практику</button>
+            <Link to="/quest">
+              <button className='btn-mobile'>Начать практику</button>
+            </Link>
           </div>
         )}
       </div>

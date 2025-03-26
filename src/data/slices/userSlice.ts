@@ -1,15 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
+interface WrodsState {
+    id: string;
+    word: string;
+    translate: string
+}
+
 interface UserState {
     email: null;
     token: null;
-    id: null
+    id: null;
+    words: WrodsState[]
 }
 
 const initialState: UserState = {
     email: null,
     token: null,
     id: null,
+    words: []
 }
 
 const userSlice = createSlice({
@@ -21,7 +29,7 @@ const userSlice = createSlice({
             state.id = action.payload.id
             state.token = action.payload.token
         },
-        removeUser(state){
+        removeUser(state) {
             state.email = null;
             state.id = null;
             state.token = null;
