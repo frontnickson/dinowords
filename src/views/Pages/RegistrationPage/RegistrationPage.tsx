@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import vk from '../../images/registration-icon/cib_vk.svg'
 import google from '../../images/registration-icon/devicon_google.svg'
-
 
 import styles from './RegistrationPage.module.scss'
 
@@ -19,8 +19,8 @@ const RegistrationPage: React.FC = () => {
 
                 <form className={styles.content_form}>
                     <div className={styles.content_form_container}>
-                        <p>Логин</p>
-                        <input type="login" placeholder='Логин' className={styles.content_form_containerInput} />
+                        <p>Почта</p>
+                        <input type="email" placeholder='Почта..' className={styles.content_form_containerInput} />
                     </div>
 
                     <div className={styles.content_form_container}>
@@ -28,7 +28,7 @@ const RegistrationPage: React.FC = () => {
                             <p>Пароль</p>
                             <p>Просмотреть пароль</p>
                         </div>
-                        <input type="password" placeholder='Пароль' className={styles.content_form_containerInput} />
+                        <input type="password" placeholder='Пароль..' className={styles.content_form_containerInput} />
                     </div>
                 </form>
 
@@ -46,7 +46,9 @@ const RegistrationPage: React.FC = () => {
                 </div>
 
                 <div className={styles.content_footer}>
-                    <p>Уже есть аккаунт?</p>
+                    <Link to="/login">
+                        <p>Уже есть аккаунт?</p>
+                    </Link>
                 </div>
 
             </div>

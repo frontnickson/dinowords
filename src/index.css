@@ -10,6 +10,7 @@
     --soft-violet: #A99FFF;
     --icy-blue: #BCEFFF;
     --element-grey: #F2F2F2;
+    --yellow: #EFE029;
     --btn: #49AF08;
     --btn-shadow: #D7FF5C;
     --btn-footer: #616161;
@@ -39,6 +40,8 @@ a {
     color: inherit;
 }
 
+
+/* standart btn */
 .btn {
     background-color: #49AF08;
     width: 222px;
@@ -62,6 +65,8 @@ a {
     cursor: pointer;
     border-bottom: 1px solid black;
 }
+
+/* big btn */
 
 .btn-big {
     background-color: #49AF08;
@@ -88,6 +93,8 @@ a {
     border-bottom: 1px solid black;
 }
 
+/* btn mobile */
+
 .btn-mobile {
     background-color: #49AF08;
     width: 222px;
@@ -98,6 +105,7 @@ a {
     font-weight: bold;
     border-bottom: 3px solid black;
     cursor: pointer;
+    display: none;
 }
 
 .btn-mobile:hover {
@@ -114,10 +122,38 @@ a {
 }
 
 
+/* btn element */
+
+.btn-element {
+    border: none;
+    border-radius: 15px;
+    height: 50px;
+    width: 180px;
+    background-color: var(--lavender-dream);
+    cursor: pointer;
+}
+
+.btn-element:hover {
+    background-color: var(--soft-violet);
+}
+
+.btn-element-disabled{
+    border: none;
+    border-radius: 15px;
+    height: 50px;
+    width: 180px;
+    background-color: var(--btn-footer);
+}
+
 
 @media (max-width: 960px) {
     .btn {
         display: none;
+    }
+
+    .btn-mobile{
+        display: block;
+        margin-bottom: 30px;
     }
 
     .btn-big {

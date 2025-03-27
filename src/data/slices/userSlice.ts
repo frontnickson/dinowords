@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
+interface LevelState {
+    easy: boolean;
+    middle: boolean;
+    hight: boolean;
+}
+
 interface WrodsState {
     id: string;
     word: string;
@@ -10,14 +16,22 @@ interface UserState {
     email: null;
     token: null;
     id: null;
-    words: WrodsState[]
+    words: WrodsState[];
+    level: LevelState;
+    stressTime: number;
 }
 
 const initialState: UserState = {
     email: null,
     token: null,
     id: null,
-    words: []
+    words: [],
+    level: {
+        easy: true,
+        middle: false,
+        hight: false
+    },
+    stressTime: 0
 }
 
 const userSlice = createSlice({

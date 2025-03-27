@@ -1,4 +1,75 @@
-.practics {
+.container {
     max-width: var(--display-width);
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 50px;
+    gap: 20px;
+    padding: 15px;
+
+    &_words{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+
+        &Word{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--btn);
+            border-radius: 17px;
+            color: white;
+            height: 40px;
+            width: 120px;
+        }
+
+        &Translate{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--yellow);
+            border-radius: 17px;
+            color: black;
+            height: 40px;
+            width: 120px;
+        }
+    }
+
+    &_input{
+        display: flex;
+        background-color: transparent;
+        height: 200px;
+        width: 100%;
+    }
+
+    &_area{
+        height: 200px;
+        width: 500px;
+        border: none;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        resize: none;
+        border-radius: 30px;
+        padding: 15px;
+    }
+}
+
+
+@media (max-width: 526px){
+    .content{
+        &_area{
+            height: 100px;
+            width: 300px;
+        }
+    }
 }

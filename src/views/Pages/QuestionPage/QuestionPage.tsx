@@ -13,13 +13,13 @@ const QuestionPage: React.FC = () => {
         </div>
 
         <div className={styles.content_buttons}>
+          
           <Link to="/level">
-            <button className={styles.content_buttonsService}>Практика слов</button>
+            <button className='btn-element'>Практика слов</button>
           </Link>
-          <button className={styles.content_buttonsServiceDisabled}>Чат с dinoteacher</button>
-          <p style={{ color: "red" }}>временно не доступно</p>
-          <button className={styles.content_buttonsServiceDisabled}>Dinowords на время</button>
-          <p style={{ color: "red" }}>временно не доступно</p>
+
+          <button className='btn-element-disabled'>Чат с dinoteacher</button>
+          <button className='btn-element-disabled'>Dinowords на время</button>
         </div>
 
         <div>

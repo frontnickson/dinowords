@@ -6,5 +6,23 @@
 }
 
 .content{
-    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-top: 100px;
+    gap: 20px;
+
+    &_title{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &_buttons{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 }

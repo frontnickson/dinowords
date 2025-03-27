@@ -9,6 +9,7 @@ import RegistrationPage from '../../Pages/RegistrationPage/RegistrationPage';
 import LogPage from '../../Pages/LogPage/LogPage';
 import QuestionPage from '../../Pages/QuestionPage/QuestionPage';
 import LevelPage from '../../Pages/LevelPage/LevelPage';
+import PracticsWords from '../../Pages/PracticsWords/PracticsWords';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const AppRoutes: React.FC = () => {
       <Route path='/login' element={<LogPage />} />
       <Route path='/quest' element={<QuestionPage />} />
       <Route path='/level' element={<LevelPage />} />
+      <Route path='/practics' element={<PracticsWords />} />
     </Routes>
   );
 };
