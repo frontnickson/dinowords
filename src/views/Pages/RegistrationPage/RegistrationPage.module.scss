@@ -1,102 +1,110 @@
 .registration {
-    max-width: var(--display-width);
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
+  max-width: var(--display-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
-.content{
-    background-color: var(--element-grey);
-    height: 550px;
-    width: 550px;
-    margin: 50px;
-    border-radius: 70px;
+.content {
+  background-color: var(--element-grey);
+  height: 550px;
+  width: 550px;
+  margin: 50px;
+  border-radius: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &_title {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+  }
 
-    &_title{
+  &_form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 24px;
+    margin: 20px;
+    width: 300px;
+
+    &_container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+
+      &Input {
+        width: 100%;
+        height: 40px;
+        border-radius: 10px;
+        border: 1px solid var(--element-grey);
+        padding: 10px;
+      }
+
+      &Title {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-    }
 
-    &_form{
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        gap: 24px;
-        margin: 20px;
-        width: 300px;
-
-        &_container{
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
-
-            &Input{
-                width: 100%;
-                height: 40px;
-                border-radius: 10px;
-                border: 1px solid var(--element-grey);
-                padding: 10px;
-            }
-
-            &Title{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+        &Show {
+          color: var(--btn-footer);
+          cursor: pointer;
         }
-    }
 
-    &_social{
-        text-align: center;
-        margin-bottom: 20px;
+        &Show:hover {
+          color: var(--btn);
+        }
+      }
     }
+  }
 
-    &_icons{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    &_button{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-    }
+  &_social {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 
-    &_footer{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-    }
+  &_icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  &_footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
 }
 
 @media (max-width: 613px) {
-    .content{
-        width: 400px;
-        margin: 15px;
-    }
+  .content {
+    width: 400px;
+    margin: 15px;
+  }
 }
 
 @media (max-width: 413px) {
-    .content{
-
-        &_form{
-            &_input{
-                width: 200px;
-            }
-        }
-
-        &_social{
-            font-size: 10px;
-        }
+  .content {
+    &_form {
+      &_input {
+        width: 200px;
+      }
     }
+
+    &_social {
+      font-size: 10px;
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import vk from '../../images/registration-icon/cib_vk.svg'
@@ -8,27 +8,57 @@ import styles from './RegistrationPage.module.scss'
 
 const RegistrationPage: React.FC = () => {
 
+    const [text, setText] = useState(false)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const [showPassword, setShowPassword] = useState("Просмотреть пароль")
+    const [type, setType] = useState("password")
+
+    const handleGetMessage = () => {
+        if (email === "" || password === "") {
+            setText(true)
+        } else {
+            setText(false)
+        }
+    }
+
+    const handleShowPassword = () => {
+        if (password !== "") {
+
+            if (showPassword === "Просмотреть пароль") {
+                setType("text")
+                setShowPassword("Скрыть пароль")
+            } else {
+                setType("password")
+                setShowPassword("Просмотреть пароль")
+            }
+            
+        }
+    }
+
     return (
         <div className={styles.registration}>
 
             <div className={styles.content}>
 
-                <div className={styles.content_title}>
+                <div className={styles.content_title} style={{ display: "flex", flexDirection: "column" }}>
                     <h1>Регистрация</h1>
+                    {text && (<h5 style={{ color: "red" }}>Вы не ввели данные</h5>)}
                 </div>
 
                 <form className={styles.content_form}>
                     <div className={styles.content_form_container}>
                         <p>Почта</p>
-                        <input type="email" placeholder='Почта..' className={styles.content_form_containerInput} />
+                        <input type="email" placeholder='Почта..' className={styles.content_form_containerInput} onChange={(e) => { setEmail(e.target.value) }} />
                     </div>
 
                     <div className={styles.content_form_container}>
                         <div className={styles.content_form_containerTitle}>
                             <p>Пароль</p>
-                            <p>Просмотреть пароль</p>
+                            <p className={styles.content_form_containerTitleShow} onClick={handleShowPassword}>{showPassword}</p>
                         </div>
-                        <input type="password" placeholder='Пароль..' className={styles.content_form_containerInput} />
+                        <input type={type} placeholder='Пароль..' className={styles.content_form_containerInput} onChange={(e) => { setPassword(e.target.value) }} />
                     </div>
                 </form>
 
@@ -42,7 +72,8 @@ const RegistrationPage: React.FC = () => {
                 </div>
 
                 <div className={styles.content_button}>
-                    <button className='btn-mobile'>Регистрация</button>
+                    <button className='btn' onClick={handleGetMessage}>Регистрация</button>
+                    <button className='btn-mobile' onClick={handleGetMessage}>Регистрация</button>
                 </div>
 
                 <div className={styles.content_footer}>

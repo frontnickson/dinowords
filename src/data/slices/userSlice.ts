@@ -19,6 +19,7 @@ interface UserState {
     words: WrodsState[];
     level: LevelState;
     stressTime: number;
+    translate: boolean
 }
 
 const initialState: UserState = {
@@ -27,11 +28,12 @@ const initialState: UserState = {
     id: null,
     words: [],
     level: {
-        easy: true,
+        easy: false,
         middle: false,
         hight: false
     },
-    stressTime: 0
+    stressTime: 0,
+    translate: false
 }
 
 const userSlice = createSlice({
@@ -47,11 +49,45 @@ const userSlice = createSlice({
             state.email = null;
             state.id = null;
             state.token = null;
+        },
+        setLevel(state, action: PayloadAction<string>) {
+            if (action.payload === "easy") {
+                state.level.easy = true
+                state.level.middle = false
+                state.level.hight = false
+            } else if (action.payload === "middle") {
+                state.level.easy = false
+                state.level.middle = true
+                state.level.hight = false
+            } else if (action.payload === "hight") {
+                state.level.easy = false
+                state.level.middle = false
+                state.level.hight = true
+            } else if (action.payload === "easy-disabled") {
+                state.level.easy = false
+                state.level.middle = false
+                state.level.hight = false
+            } else if (action.payload === "middle-disabled") {
+                state.level.easy = false
+                state.level.middle = false
+                state.level.hight = false
+            } else if (action.payload === "hight-disabled") {
+                state.level.easy = false
+                state.level.middle = false
+                state.level.hight = false
+            }
+        },
+        setTranslate(state, action: PayloadAction<boolean>) {
+            if (action.payload === true) {
+                state.translate = true
+            } else if (action.payload === false) {
+                state.translate = false
+            }
         }
     },
 })
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setLevel, setTranslate } = userSlice.actions;
 export default userSlice.reducer;
 
 

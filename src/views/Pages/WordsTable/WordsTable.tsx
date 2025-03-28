@@ -16,7 +16,7 @@ const WordsTable: React.FC = () => {
       return item
     }
   }).slice(0, limitWords)
-
+  
   const handleMoreWords = () => {
     setLimitWords((e) => { return e + 15 })
   }
