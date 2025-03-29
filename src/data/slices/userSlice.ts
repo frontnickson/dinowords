@@ -65,15 +65,9 @@ const userSlice = createSlice({
                 state.level.hight = true
             } else if (action.payload === "easy-disabled") {
                 state.level.easy = false
-                state.level.middle = false
-                state.level.hight = false
             } else if (action.payload === "middle-disabled") {
-                state.level.easy = false
                 state.level.middle = false
-                state.level.hight = false
             } else if (action.payload === "hight-disabled") {
-                state.level.easy = false
-                state.level.middle = false
                 state.level.hight = false
             }
         },

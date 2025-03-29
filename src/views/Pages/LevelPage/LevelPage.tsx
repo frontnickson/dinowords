@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import styles from './LevelPage.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../data/store/store';
-import { setLevel } from '../../../data/slices/userSlice';
+import { setLevel, setTranslate } from '../../../data/slices/userSlice';
+
+
+import styles from './LevelPage.module.scss'
 
 const LevelPage: React.FC = () => {
 
     const dispatch = useDispatch()
-
     const user = useSelector((state: RootState) => state.user)
-    console.log(user);
 
-
-    const [useBtn, setUseBtn] = useState(false)
-
-    const handleChoose = () => {
-        if (!useBtn) {
-            setUseBtn(true)
-        } else {
-            setUseBtn(false)
+    const handleSetLevel = (level: string) => {
+        if (level === "easy" && !user.level.middle && !user.level.hight) {
+            dispatch(setLevel(user.level.easy ? "easy-disabled" : "easy"))
+        } else if (level === "middle" && !user.level.easy && !user.level.hight) {
+            dispatch(setLevel(user.level.middle ? "middle-disabled" : "middle"))
+        } else if (level === "hight" && !user.level.middle && !user.level.easy) {
+            dispatch(setLevel(user.level.hight ? "hight-disabled" : "hight"))
         }
     }
 
@@ -36,55 +34,28 @@ const LevelPage: React.FC = () => {
 
                 <div className={styles.content_buttons}>
 
-                    <button onClick={(e) => {
-                        const button = e.target as HTMLButtonElement;
-                        button.classList.toggle(`${styles.content_buttonsActive}`);
-                        if (user.level.easy === false) {
-                            dispatch(setLevel("easy"))
-                        } else if (user.level.easy === true) {
-                            dispatch(setLevel("easy-disabled"))
-
-                        }
-                    }} className={styles.content_buttonsDisabled}>
-                        Из 3-ех слов
+                    <button onClick={() => { handleSetLevel("easy") }} className={user.level.easy ? styles.content_buttonsActive : styles.content_buttonsDisabled}>
+                        Из 3-ти слов
                     </button>
 
-                    <button onClick={(e) => {
-                        const button = e.target as HTMLButtonElement;
-                        button.classList.toggle(`${styles.content_buttonsActive}`);
-                        if (user.level.easy === false) {
-                            dispatch(setLevel("middle"))
-                        } else if (user.level.easy === true) {
-                            dispatch(setLevel("middle-disabled"))
-
-                        }
-                    }} className={styles.content_buttonsDisabled}>
-                        Из 5-ех слов
+                    <button onClick={() => { handleSetLevel("middle") }} className={user.level.middle ? styles.content_buttonsActive : styles.content_buttonsDisabled}>
+                        Из 5-ти слов
                     </button>
 
-                    <button onClick={(e) => {
-                        const button = e.target as HTMLButtonElement;
-                        button.classList.toggle(`${styles.content_buttonsActive}`);
-                        if (user.level.easy === false) {
-                            dispatch(setLevel("hight"))
-                        } else if (user.level.easy === true) {
-                            dispatch(setLevel("higth-disabled"))
-
-                        }
-                    }} className={styles.content_buttonsDisabled}>
-                        Из 8-ех слов
+                    <button onClick={() => { handleSetLevel("hight") }} className={user.level.hight ? styles.content_buttonsActive : styles.content_buttonsDisabled}>
+                        Из 8-ти слов
                     </button>
 
                 </div>
 
                 <div style={{ display: "flex", gap: "10px" }}>
-                    <input type='checkbox' style={{ cursor: "pointer" }} onChange={(e) => { console.log(e.target.value) }} />
+                    <input type='checkbox' style={{ cursor: "pointer" }} onChange={(e) => { dispatch(setTranslate(e.target.checked)) }} checked={user.translate} />
                     <p>С переводом?</p>
                 </div>
 
                 <div>
-                    {useBtn ? (
-                        <Link to="/level">
+                    {user.level.easy || user.level.hight || user.level.middle ? (
+                        <Link to="/practics">
                             <div>
                                 <button className='btn'>Далее</button>
                                 <button className='btn-mobile'>Далее</button>

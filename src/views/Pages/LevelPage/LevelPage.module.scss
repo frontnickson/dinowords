@@ -36,7 +36,13 @@
         }
 
         &Active{
+            height: 40px;
+            width: 120px;
+            border-radius: 15px;
+            border: none;
             background-color: var(--soft-violet);
+            color: white;
+            cursor: pointer;
         }
     }
 }

@@ -101,7 +101,7 @@ const Header: React.FC = () => {
               </Link>
 
             </ul>
-            <Link to="/quest">
+            <Link to="/quest" onClick={() => { setMenu(false) }}>
               <button className='btn-mobile'>Начать практику</button>
             </Link>
           </div>
