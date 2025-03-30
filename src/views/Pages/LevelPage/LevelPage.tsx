@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../data/store/store';
@@ -35,15 +35,15 @@ const LevelPage: React.FC = () => {
                 <div className={styles.content_buttons}>
 
                     <button onClick={() => { handleSetLevel("easy") }} className={user.level.easy ? styles.content_buttonsActive : styles.content_buttonsDisabled}>
-                        Из 3-ти слов
+                        Из 2-ух слов
                     </button>
 
                     <button onClick={() => { handleSetLevel("middle") }} className={user.level.middle ? styles.content_buttonsActive : styles.content_buttonsDisabled}>
-                        Из 5-ти слов
+                        Из 4-ти слов
                     </button>
 
                     <button onClick={() => { handleSetLevel("hight") }} className={user.level.hight ? styles.content_buttonsActive : styles.content_buttonsDisabled}>
-                        Из 8-ти слов
+                        Из 6-ти слов
                     </button>
 
                 </div>

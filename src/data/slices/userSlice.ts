@@ -1,22 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { words } from "../constants/words";
 
 interface LevelState {
     easy: boolean;
     middle: boolean;
     hight: boolean;
 }
-
-interface WrodsState {
-    id: string;
+interface WordState {
+    id: number;
     word: string;
-    translate: string
+    translate: string;
+    know: boolean;
 }
 
 interface UserState {
     email: null;
     token: null;
     id: null;
-    words: WrodsState[];
+    studiedWords: WordState[];
+    words: WordState[];
     level: LevelState;
     stressTime: number;
     translate: boolean
@@ -26,7 +28,8 @@ const initialState: UserState = {
     email: null,
     token: null,
     id: null,
-    words: [],
+    studiedWords: [],
+    words: words,
     level: {
         easy: false,
         middle: false,
@@ -77,11 +80,23 @@ const userSlice = createSlice({
             } else if (action.payload === false) {
                 state.translate = false
             }
+        },
+        pushNewWord(state, action: PayloadAction<WordState>) {
+            if (!state.studiedWords.some(item => item.word === action.payload.word)) {
+                state.studiedWords.push(action.payload);
+            }
+
+            state.words = state.words.map(item => {
+                if (item.word === action.payload.word) {
+                    item.know = true;
+                }
+                return item;
+            });
         }
     },
 })
 
-export const { setUser, setLevel, setTranslate } = userSlice.actions;
+export const { setUser, setLevel, setTranslate, pushNewWord } = userSlice.actions;
 export default userSlice.reducer;
 
 

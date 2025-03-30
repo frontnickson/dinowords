@@ -10,6 +10,7 @@ import LogPage from '../../Pages/LogPage/LogPage';
 import QuestionPage from '../../Pages/QuestionPage/QuestionPage';
 import LevelPage from '../../Pages/LevelPage/LevelPage';
 import PracticsWords from '../../Pages/PracticsWords/PracticsWords';
+import SuccessfulPage from '../../Pages/PracticsWords/SuccessfulPage/SuccessfulPage';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes: React.FC = () => {
       <Route path='/quest' element={<QuestionPage />} />
       <Route path='/level' element={<LevelPage />} />
       <Route path='/practics' element={<PracticsWords />} />
+      <Route path='/successeful' element={<SuccessfulPage />} />
     </Routes>
   );
 };
