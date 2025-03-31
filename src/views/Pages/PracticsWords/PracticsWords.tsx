@@ -12,7 +12,6 @@ interface Word {
   know: boolean
 }
 
-
 import styles from './PracticsWords.module.scss'
 
 const PracticsWords: React.FC = () => {
@@ -20,7 +19,7 @@ const PracticsWords: React.FC = () => {
   const dispatch = useDispatch()
   const studiedWords = useSelector((state: RootState) => state.user.studiedWords)
 
-  const allWords = useSelector((state: RootState) => state.user.words)
+  const allWords = useSelector((state: RootState) => state.words.words)
 
   const userTranslate = useSelector((state: RootState) => state.user.translate)
   const userLevel = useSelector((state: RootState) => state.user.level)
@@ -128,6 +127,7 @@ const PracticsWords: React.FC = () => {
           </div>
 
           {/* Text area */}
+          {text === "" ? <p style={{marginBottom: "15px", color: "red"}}>Введите текст</p> : ""}
           <form>
             {randomWords && (
               <textarea className={styles.content_area} onChange={(e) => { setText(e.target.value); handlePushNewWords() }} placeholder='Введите текст...' value={text}></textarea>
@@ -138,13 +138,13 @@ const PracticsWords: React.FC = () => {
 
         {randomWords ? (
           <Link to="/successeful">
-            <button className='btn' onClick={() => { handleGetRandomWords(); clearText() }}>{randomWords ? "Отправить" : "Старт"}</button>
-            <button className='btn-mobile' onClick={() => { handleGetRandomWords(); clearText() }}>{randomWords ? "Отправить" : "Старт"}</button>
+            <button className='btn' onClick={() => { handleGetRandomWords(); clearText() }} disabled={text === ""}>{randomWords ? "Отправить" : "Старт"}</button>
+            <button className='btn-mobile' onClick={() => { handleGetRandomWords(); clearText() }} disabled={text === ""}>{randomWords ? "Отправить" : "Старт"}</button>
           </Link>
         ) : (
           <div>
-            <button className='btn' onClick={() => { handleGetRandomWords(); clearText() }}>{randomWords ? "Отправить" : "Старт"}</button>
-            <button className='btn-mobile' onClick={() => { handleGetRandomWords(); clearText() }}>{randomWords ? "Отправить" : "Старт"}</button>
+            <button className='btn' onClick={() => { handleGetRandomWords(); clearText() }} disabled={text === ""}>{randomWords ? "Отправить" : "Старт"}</button>
+            <button className='btn-mobile' onClick={() => { handleGetRandomWords(); clearText() }} disabled={text === ""}>{randomWords ? "Отправить" : "Старт"}</button>
           </div>
         )}
 

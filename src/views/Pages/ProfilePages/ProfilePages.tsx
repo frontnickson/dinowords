@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import progressImage from '../../images/profile/27013326_5200_4_03.png'
 
@@ -6,14 +6,18 @@ import profileImage from '../../images/profile/6200_8_05.png'
 import styles from './ProfilePages.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../data/store/store';
-import { setImage } from '../../../data/slices/userSlice';
+import { removeUser, setImage } from '../../../data/slices/userSlice';
 
 const ProfilePages: React.FC = () => {
 
   const dispatch = useDispatch()
   const image = useSelector((state: RootState) => state.user.image)
   const userWords = useSelector((state: RootState) => state.user.studiedWords)
-  
+  const user = useSelector((state: RootState) => state.user.studiedWords)
+  const userName = useSelector((state: RootState) => state.user.name)
+
+  const [progress] = useState(user.length)
+
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -23,6 +27,11 @@ const ProfilePages: React.FC = () => {
       dispatch(setImage(url))
     }
   };
+
+  const exitProfile = () => {
+    dispatch(removeUser())
+    window.location.href = "/about"
+  }
 
   return (
     <div className={styles.profile}>
@@ -38,11 +47,15 @@ const ProfilePages: React.FC = () => {
           </div>
 
           <div className={styles.content_infoProfile}>
-            <h1>Nikita</h1>
+            <h1>{userName}</h1>
             <br />
             <p>Возраст: 28</p>
             <p>Пол: мужской</p>
             <p>Уровень: начинающий</p>
+
+            <div style={{ marginTop: "auto" }}>
+              <p onClick={exitProfile}>Выйти из профиля</p>
+            </div>
           </div>
 
         </div>
@@ -69,7 +82,10 @@ const ProfilePages: React.FC = () => {
                 <p>{userWords.length}/100</p>
               </div>
 
-              <div className={styles.content_infoProgressStatusInfoProgress}></div>
+
+              <div style={{ height: "20px", width: "100%", backgroundColor: "grey", borderRadius: "10px" }}>
+                <div style={{ height: "20px", width: `${progress}px`, backgroundColor: "red", borderRadius: "10px" }}></div>
+              </div>
 
             </div>
           </div>
@@ -77,7 +93,7 @@ const ProfilePages: React.FC = () => {
         </div>
 
       </div>
-      
+
     </div>
   );
 };

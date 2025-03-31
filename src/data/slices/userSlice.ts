@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { words } from "../constants/words";
 
 interface LevelState {
     easy: boolean;
@@ -14,26 +13,24 @@ interface WordState {
 }
 
 interface UserState {
-    email: null;
-    token: null;
-    id: null;
+    email: string;
+    token: string;
+    id: number;
     name: string;
     image: string;
     studiedWords: WordState[];
-    words: WordState[];
     level: LevelState;
     stressTime: number;
     translate: boolean
 }
 
 const initialState: UserState = {
-    email: null,
-    token: null,
-    id: null,
+    email: "",
+    token: "",
+    id: 0,
     name: "",
     image: "",
     studiedWords: [],
-    words: words,
     level: {
         easy: false,
         middle: false,
@@ -47,15 +44,18 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
+        // add new user
         setUser(state, action: PayloadAction<UserState>) {
             state.email = action.payload.email
-            state.id = action.payload.id
             state.token = action.payload.token
+            state.id = action.payload.id
+            state.name = action.payload.name
         },
+        // exit profile
         removeUser(state) {
-            state.email = null;
-            state.id = null;
-            state.token = null;
+            state.email = "";
+            state.id = 0;
+            state.token = "";
         },
         setLevel(state, action: PayloadAction<string>) {
             if (action.payload === "easy") {
@@ -90,7 +90,7 @@ const userSlice = createSlice({
                 state.studiedWords.push(action.payload);
             }
 
-            state.words = state.words.map(item => {
+            state.studiedWords = state.studiedWords.map(item => {
                 if (item.word === action.payload.word) {
                     item.know = true;
                 }
@@ -99,11 +99,14 @@ const userSlice = createSlice({
         },
         setImage(state, action: PayloadAction<string>) {
             state.image = action.payload;
+        },
+        setToken(state, action: PayloadAction<string>) {
+            state.token = action.payload;
         }
     },
 })
 
-export const { setUser, setLevel, setTranslate, pushNewWord, setImage } = userSlice.actions;
+export const { setUser, removeUser, setLevel, setTranslate, pushNewWord, setImage, setToken } = userSlice.actions;
 export default userSlice.reducer;
 
 

@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './WordsTable.module.scss'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../data/store/store';
-import { fetchWords } from '../../../data/api/api';
 
 const WordsTable: React.FC = () => {
 
-  const userWords = useSelector((state: RootState) => state.user.words)
+  const userWords = useSelector((state: RootState) => state.words.words)
   const [limitWords, setLimitWords] = useState(15)
   const [value, setValue] = useState('')
 
@@ -22,19 +21,6 @@ const WordsTable: React.FC = () => {
   const handleMoreWords = () => {
     setLimitWords((e) => { return e + 15 })
   }
-
-  // useEffect(() => {
-  //   async function getWords() {
-  //     try {
-  //       const res = await fetchWords()
-  //       console.log(res);
-  //     } catch (error) {
-  //       console.log("error", error);
-  //     }
-  //   }
-
-  //   getWords()
-  // }, [])
 
   return (
     <div className={styles.words}>

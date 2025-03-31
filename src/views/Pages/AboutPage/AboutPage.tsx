@@ -11,7 +11,7 @@ import styles from './AboutPage.module.scss'
 
 const AboutPage: React.FC = () => {
 
-    const user = useSelector((state: RootState) => state.user.email)
+    const user = useSelector((state: RootState) => state.user.token)
 
     return (
         <div className={styles.title}>

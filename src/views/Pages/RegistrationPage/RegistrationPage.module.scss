@@ -7,9 +7,10 @@
 
 .content {
   background-color: var(--element-grey);
-  height: 550px;
+  height: 100%;
   width: 550px;
   margin: 50px;
+  padding: 30px 0px;
   border-radius: 70px;
   display: flex;
   flex-direction: column;
@@ -26,8 +27,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 24px;
-    margin: 20px;
+    gap: 15px;
     width: 300px;
 
     &_container {
@@ -63,7 +63,6 @@
 
   &_social {
     text-align: center;
-    margin-bottom: 20px;
   }
 
   &_icons {
@@ -97,9 +96,13 @@
 
 @media (max-width: 413px) {
   .content {
+
     &_form {
+
+      gap: 10px;
+
       &_input {
-        width: 200px;
+        width: 80px;
       }
     }
 
