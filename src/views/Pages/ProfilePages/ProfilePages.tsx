@@ -1,24 +1,40 @@
 import React from 'react';
 
-
-
-
-import profileImage from '../../images/profile/6200_8_05.png'
 import progressImage from '../../images/profile/27013326_5200_4_03.png'
 
-
+import profileImage from '../../images/profile/6200_8_05.png'
 import styles from './ProfilePages.module.scss'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../data/store/store';
+import { setImage } from '../../../data/slices/userSlice';
 
 const ProfilePages: React.FC = () => {
+
+  const dispatch = useDispatch()
+  const image = useSelector((state: RootState) => state.user.image)
+  const userWords = useSelector((state: RootState) => state.user.studiedWords)
+  
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      const url = URL.createObjectURL(file);
+      dispatch(setImage(url))
+    }
+  };
+
   return (
     <div className={styles.profile}>
+
       <div className={styles.content}>
 
         <div className={styles.content_info}>
 
           <div className={styles.content_image}>
-            <img src={profileImage} alt='profile' className={styles.content_image}/>
-            <button className={styles.content_imageButton}>add new image</button>
+
+            {image ? <img src={image} alt="Profile" style={{ height: "365px", width: "365px", borderRadius: "48px" }} /> : <img src={profileImage} />}
+            <input type="file" accept="image/*" onChange={handleImageChange} />
           </div>
 
           <div className={styles.content_infoProfile}>
@@ -28,6 +44,7 @@ const ProfilePages: React.FC = () => {
             <p>Пол: мужской</p>
             <p>Уровень: начинающий</p>
           </div>
+
         </div>
 
         <div className={styles.content_infoProgress}>
@@ -49,7 +66,7 @@ const ProfilePages: React.FC = () => {
 
               <div className={styles.content_infoProgressStatusInfoTitle}>
                 <p>Начинающий</p>
-                <p>35/100</p>
+                <p>{userWords.length}/100</p>
               </div>
 
               <div className={styles.content_infoProgressStatusInfoProgress}></div>
@@ -60,6 +77,7 @@ const ProfilePages: React.FC = () => {
         </div>
 
       </div>
+      
     </div>
   );
 };

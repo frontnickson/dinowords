@@ -10,7 +10,7 @@
   align-items: center;
   gap: 30px;
   width: 100%;
-  padding: 15px 15px;
+  padding: 15px 0px;
 
   &_logo{
     height: 50px;
@@ -110,6 +110,7 @@
 
 @media (max-width: 960px) {
   .content {
+    padding: 15px;
 
     &_logo{
       height: 40px;

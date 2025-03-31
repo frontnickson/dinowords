@@ -17,6 +17,8 @@ interface UserState {
     email: null;
     token: null;
     id: null;
+    name: string;
+    image: string;
     studiedWords: WordState[];
     words: WordState[];
     level: LevelState;
@@ -28,6 +30,8 @@ const initialState: UserState = {
     email: null,
     token: null,
     id: null,
+    name: "",
+    image: "",
     studiedWords: [],
     words: words,
     level: {
@@ -92,11 +96,14 @@ const userSlice = createSlice({
                 }
                 return item;
             });
+        },
+        setImage(state, action: PayloadAction<string>) {
+            state.image = action.payload;
         }
     },
 })
 
-export const { setUser, setLevel, setTranslate, pushNewWord } = userSlice.actions;
+export const { setUser, setLevel, setTranslate, pushNewWord, setImage } = userSlice.actions;
 export default userSlice.reducer;
 
 
