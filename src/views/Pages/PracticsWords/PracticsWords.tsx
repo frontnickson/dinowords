@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { pushNewWord } from '../../../data/slices/userSlice';
@@ -24,8 +24,7 @@ const PracticsWords: React.FC = () => {
   const [text, setText] = useState('')
   const [randomWords, setRandomWords] = useState<Word[]>()
 
-  const handleGetRandomWords = () => {
-
+  const handleGetRandomWords = useCallback(() => {
     const wordsList = []
 
     if (userLevel.easy === true) {
@@ -62,11 +61,11 @@ const PracticsWords: React.FC = () => {
     }
 
     setRandomWords(wordsList)
-
-  }
+  }, [userLevel, allWords])
 
   const handlePushNewWords = () => {
-    const splitText = text.trim().split(/\s+/).filter(w => w !== "");
+    const splitText = text.trim().split(/\s+/).filter(w => w.length > 0);
+
     splitText.forEach(word => {
       const foundWord = allWords.find(item => item.word === word)
 
@@ -74,36 +73,49 @@ const PracticsWords: React.FC = () => {
         dispatch(pushNewWord(foundWord))
       }
     })
+
   };
 
-  // Должно быть:
   useEffect(() => {
 
     const pushStudiedWords = async () => {
-      if (studiedWords.length > 0) { // Проверяем, есть ли слова для отправки
+      if (studiedWords.length > 0) {
         try {
-          const response = await axios.post(
-            'http://localhost:5001/user/words', // Правильный URL
+          await axios.post('http://localhost:5001/user/words',
             studiedWords,
             {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
+              headers: { 'Authorization': `Bearer ${token}` }
             }
           );
-          console.log('Слова успешно отправлены:', response.data);
         } catch (error) {
-          if (axios.isAxiosError(error)) {
-            console.error('Ошибка при отправке слов:', error.response?.data?.message);
-          }
+          console.error("Ошибка при отправке слов:", error);
         }
       }
     };
+
     pushStudiedWords();
+
+
+    const getWords = async () => {
+      if (studiedWords.length > 0) {
+        try {
+          const responce = await axios.get('http://localhost:5001/user/words',
+            {
+              headers: { 'Authorization': `Bearer ${token}` }
+            }
+          );
+          console.log(responce.data);
+        } catch (error) {
+          console.error("Ошибка при отправке слов:", error);
+        }
+      }
+    };
+
+    getWords();
 
   }, [studiedWords, token]);
 
-  useEffect(() => { handleGetRandomWords() }, [])
+  useEffect(() => { handleGetRandomWords() }, [handleGetRandomWords])
 
   const clearText = () => { setText('') }
 

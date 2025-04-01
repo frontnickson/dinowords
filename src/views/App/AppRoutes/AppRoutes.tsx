@@ -20,6 +20,7 @@ const AppRoutes: React.FC = () => {
     <Routes>
       {user ? (
         <>
+          <Route index element={<AboutPage />} />
           <Route path="/" element={<AboutPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/profile" element={<ProfilePages />} />

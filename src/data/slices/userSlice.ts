@@ -58,6 +58,7 @@ const userSlice = createSlice({
         removeUser(state) {
             state.email = "";
             state.token = "";
+            state.studiedWords = [];
         },
         setLevel(state, action: PayloadAction<string>) {
             if (action.payload === "easy") {

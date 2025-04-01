@@ -13,7 +13,10 @@ const ProfilePages: React.FC = () => {
 
   const dispatch = useDispatch()
   const token = useSelector((state: RootState) => state.user.token)
+
   const [userWords, setUserWords] = useState<WordState[]>()
+
+
   const userName = useSelector((state: RootState) => state.user.name)
   const [progress] = useState(userWords ? userWords.length : "0")
 
@@ -24,17 +27,17 @@ const ProfilePages: React.FC = () => {
 
   useEffect(() => {
     const getWords = async () => {
-      if (!token) return; 
-  
+      if (!token) return;
+
       try {
         const response = await axios.get('http://localhost:5001/user/words', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-  
+
         setUserWords(response.data)
-  
+
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error("Axios error:", error.message);
@@ -44,7 +47,7 @@ const ProfilePages: React.FC = () => {
         }
       }
     };
-  
+
     getWords();
   }, [token])
 
@@ -56,7 +59,6 @@ const ProfilePages: React.FC = () => {
         <div className={styles.content_info}>
 
           <div className={styles.content_image}>
-
             <img src={profileImage} />
           </div>
 
@@ -77,10 +79,8 @@ const ProfilePages: React.FC = () => {
         <div className={styles.content_infoProgress}>
 
           <div className={styles.content_infoProgressAll}>
-
             <h1>Достижения</h1>
             <h1>ВСЕ</h1>
-
           </div>
 
           <div className={styles.content_infoProgressStatus}>
@@ -90,7 +90,6 @@ const ProfilePages: React.FC = () => {
             </div>
 
             <div className={styles.content_infoProgressStatusInfo}>
-
               <div className={styles.content_infoProgressStatusInfoTitle}>
                 <p>Начинающий</p>
                 <p>{userWords?.length}/100</p>
@@ -98,7 +97,7 @@ const ProfilePages: React.FC = () => {
 
 
               <div style={{ height: "20px", width: "100%", backgroundColor: "grey", borderRadius: "10px" }}>
-                <div style={{ height: "20px", width: `${progress}px`, backgroundColor: "red", borderRadius: "10px" }}></div>
+                <div style={{ height: "20px", width: `${userWords?.length}px`, backgroundColor: "red", borderRadius: "10px" }}></div>
               </div>
 
             </div>

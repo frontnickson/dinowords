@@ -11,10 +11,10 @@ import styles from './ProgressPages.module.scss'
 
 const ProgressPages: React.FC = () => {
 
-  const user = useSelector((state: RootState) => state.user.studiedWords)
-  const [userWords, setUserWords] = useState("")
+  // const user = useSelector((state: RootState) => state.user.studiedWords)
+  const [userLength, setUserLength] = useState<number | undefined>(undefined);
+  
   const token = useSelector((state: RootState) => state.user.token)
-  const [progress] = useState(user.length)
 
   useEffect(() => {
     const getWords = async () => {
@@ -26,7 +26,7 @@ const ProgressPages: React.FC = () => {
         })
 
         if (response.data) {
-          setUserWords(response.data)
+          setUserLength(response.data.length)
         }
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -51,11 +51,11 @@ const ProgressPages: React.FC = () => {
             <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: "20px" }}>
               <div className={styles.content_progressTitle}>
                 <h2>Уверенный</h2>
-                <h2>{userWords ? userWords.length : ""}/1000</h2>
+                <h2>{userLength ? userLength : ""}/1000</h2>
               </div>
 
               <div style={{ height: "20px", width: "100%", backgroundColor: "grey", borderRadius: "10px" }}>
-                <div style={{ height: "20px", width: `${progress}px`, backgroundColor: "red", borderRadius: "10px" }}></div>
+                <div style={{ height: "20px", width: `${userLength}px`, backgroundColor: "red", borderRadius: "10px" }}></div>
               </div>
 
             </div>

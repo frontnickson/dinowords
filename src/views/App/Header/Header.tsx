@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../data/store/store';
+import { removeUser } from '../../../data/slices/userSlice';
 
 import logo from '../../images/logo.svg'
 import burgerMenu from '../../images/burger-menu.svg'
@@ -16,6 +17,7 @@ import styles from './Header.module.scss'
 
 const Header: React.FC = () => {
 
+  const dispatch = useDispatch()
   const [menu, setMenu] = useState<boolean>(false)
   const [opactiy, setOpactiy] = useState({ opacity: 0 })
   const user = useSelector((state: RootState) => state.user.token)
@@ -40,8 +42,14 @@ const Header: React.FC = () => {
     }, 200)
   }
 
+  const handleExitProfile = () => {
+    dispatch(removeUser())
+    window.location.href = "/about"
+  }
+
   return (
     <header className={styles.header}>
+
       {user ? (
         <div className={styles.content}>
           <Link to="/about" style={{ display: "flex", alignItems: "center" }}>
@@ -107,6 +115,10 @@ const Header: React.FC = () => {
               <Link to="/quest" onClick={() => { setMenu(false) }}>
                 <button className='btn-mobile'>Начать практику</button>
               </Link>
+
+              <div>
+                <p onClick={handleExitProfile}>Выйти</p>
+              </div>
             </div>
           )}
         </div>
@@ -120,12 +132,14 @@ const Header: React.FC = () => {
 
             <Link to="/login">
               <button className='btn'>Войти</button>
+              <button className='btn-mobile'>Войти</button>
             </Link>
 
           </div>
 
         </div>
       )}
+
     </header>
   );
 };

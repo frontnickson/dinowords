@@ -153,12 +153,19 @@ a {
 
     .btn-mobile{
         display: block;
-        margin-bottom: 30px;
     }
 
     .btn-big {
         width: 222px;
         height: 48px;
         font-size: 20px;
+    }
+}
+
+@media (max-width: 450px) {
+    .btn-mobile{
+        display: block;
+        width: 180px;
+        height: 38px;
     }
 }
