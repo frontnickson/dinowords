@@ -2,58 +2,25 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import vk from '../../images/registration-icon/cib_vk.svg';
 import google from '../../images/registration-icon/devicon_google.svg';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../../data/slices/userSlice';
 
 
 
 
 import styles from './LogPage.module.scss';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../../data/slices/userSlice';
 
 const LogPage: React.FC = () => {
 
     const dispatch = useDispatch()
-
-    const navigate = useNavigate();
+    const nigative = useNavigate()
     const [text, setText] = useState(false);
+    const [errorText, setErrorText] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState("Просмотреть пароль");
     const [type, setType] = useState("password");
-
-    const handleGetMessage = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (email === "" || password === "") {
-            setText(true);
-            return;
-        }
-        setText(false);
-
-        try {
-            const response = await fetch('http://localhost:5001/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Ошибка входа');
-            }
-
-            dispatch(setUser(data.user))
-
-            // Перенаправляем на главную страницу или профиль
-            navigate('/');
-        } catch (err) {
-            console.log(err);
-            
-        }
-    };
 
     const handleShowPassword = () => {
         if (password !== "") {
@@ -67,6 +34,30 @@ const LogPage: React.FC = () => {
         }
     };
 
+    const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        if (email === "" && password === "") {
+            setText(true)
+        }
+
+        try {
+            const response = await axios.post('http://localhost:5001/login', { email, password })
+
+            if (response.data.user) {
+                dispatch(setUser(response.data.user))
+                nigative("/profile")
+            }
+
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setErrorText("Пользователь не найден")
+                setEmail('')
+                setPassword('')
+                console.error('Login error:', error.response?.data?.message || 'Unknown error')
+            }
+        }
+    }
+
     return (
         <div className={styles.registration}>
 
@@ -75,9 +66,10 @@ const LogPage: React.FC = () => {
                 <div className={styles.content_title} style={{ display: "flex", flexDirection: "column" }}>
                     <h1>Войти в профиль</h1>
                     {text && <h5 style={{ color: "red" }}>Вы не ввели данные</h5>}
+                    {errorText}
                 </div>
 
-                <form className={styles.content_form} onSubmit={handleGetMessage}>
+                <form className={styles.content_form}>
                     <div className={styles.content_form_container}>
                         <p>Почта</p>
                         <input
@@ -115,8 +107,8 @@ const LogPage: React.FC = () => {
                     </div>
 
                     <div className={styles.content_button}>
-                        <button type="submit" className='btn'>Войти</button>
-                        <button type="submit" className='btn-mobile'>Войти</button>
+                        <button type="button" className='btn' onClick={handleLogin}>Войти</button>
+                        <button type="button" className='btn-mobile' onClick={handleLogin}>Войти</button>
                     </div>
 
                     <div className={styles.content_footer}>

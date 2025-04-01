@@ -5,7 +5,7 @@ interface LevelState {
     middle: boolean;
     hight: boolean;
 }
-interface WordState {
+export interface WordState {
     id: number;
     word: string;
     translate: string;
@@ -48,13 +48,15 @@ const userSlice = createSlice({
         setUser(state, action: PayloadAction<UserState>) {
             state.email = action.payload.email
             state.token = action.payload.token
-            state.id = action.payload.id
+            state.id = action.payload.id + 1
             state.name = action.payload.name
+            state.level = {easy: false, middle: false, hight: false}
+            state.stressTime = 0
+            state.translate = false
         },
         // exit profile
         removeUser(state) {
             state.email = "";
-            state.id = 0;
             state.token = "";
         },
         setLevel(state, action: PayloadAction<string>) {

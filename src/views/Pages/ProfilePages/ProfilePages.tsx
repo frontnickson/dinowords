@@ -1,37 +1,52 @@
-import React, { useState } from 'react';
-
-import progressImage from '../../images/profile/27013326_5200_4_03.png'
-
-import profileImage from '../../images/profile/6200_8_05.png'
-import styles from './ProfilePages.module.scss'
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../data/store/store';
-import { removeUser, setImage } from '../../../data/slices/userSlice';
+import { removeUser, WordState } from '../../../data/slices/userSlice';
+import axios from 'axios';
+
+import progressImage from '../../images/profile/27013326_5200_4_03.png'
+import profileImage from '../../images/profile/6200_8_05.png'
+
+import styles from './ProfilePages.module.scss'
 
 const ProfilePages: React.FC = () => {
 
   const dispatch = useDispatch()
-  const image = useSelector((state: RootState) => state.user.image)
-  const userWords = useSelector((state: RootState) => state.user.studiedWords)
-  const user = useSelector((state: RootState) => state.user.studiedWords)
+  const token = useSelector((state: RootState) => state.user.token)
+  const [userWords, setUserWords] = useState<WordState[]>()
   const userName = useSelector((state: RootState) => state.user.name)
-
-  const [progress] = useState(user.length)
-
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
-    if (file) {
-      const url = URL.createObjectURL(file);
-      dispatch(setImage(url))
-    }
-  };
+  const [progress] = useState(userWords ? userWords.length : "0")
 
   const exitProfile = () => {
     dispatch(removeUser())
     window.location.href = "/about"
   }
+
+  useEffect(() => {
+    const getWords = async () => {
+      if (!token) return; 
+  
+      try {
+        const response = await axios.get('http://localhost:5001/user/words', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+  
+        setUserWords(response.data)
+  
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Axios error:", error.message);
+          console.error("Response data:", error.response?.data);
+        } else {
+          console.error("Unexpected error:", error);
+        }
+      }
+    };
+  
+    getWords();
+  }, [token])
 
   return (
     <div className={styles.profile}>
@@ -42,8 +57,7 @@ const ProfilePages: React.FC = () => {
 
           <div className={styles.content_image}>
 
-            {image ? <img src={image} alt="Profile" style={{ height: "365px", width: "365px", borderRadius: "48px" }} /> : <img src={profileImage} />}
-            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <img src={profileImage} />
           </div>
 
           <div className={styles.content_infoProfile}>
@@ -79,7 +93,7 @@ const ProfilePages: React.FC = () => {
 
               <div className={styles.content_infoProgressStatusInfoTitle}>
                 <p>Начинающий</p>
-                <p>{userWords.length}/100</p>
+                <p>{userWords?.length}/100</p>
               </div>
 
 

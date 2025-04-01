@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { pushNewWord } from '../../../data/slices/userSlice';
 import { RootState } from '../../../data/store/store';
-
-
 interface Word {
   id: number;
   word: string;
@@ -13,19 +11,17 @@ interface Word {
 }
 
 import styles from './PracticsWords.module.scss'
+import axios from 'axios';
 
 const PracticsWords: React.FC = () => {
 
   const dispatch = useDispatch()
+  const token = useSelector((state: RootState) => state.user.token)
   const studiedWords = useSelector((state: RootState) => state.user.studiedWords)
-
   const allWords = useSelector((state: RootState) => state.words.words)
-
   const userTranslate = useSelector((state: RootState) => state.user.translate)
   const userLevel = useSelector((state: RootState) => state.user.level)
-
   const [text, setText] = useState('')
-
   const [randomWords, setRandomWords] = useState<Word[]>()
 
   const handleGetRandomWords = () => {
@@ -65,30 +61,51 @@ const PracticsWords: React.FC = () => {
       }
     }
 
-    console.log(wordsList);
-
     setRandomWords(wordsList)
 
   }
 
   const handlePushNewWords = () => {
     const splitText = text.trim().split(/\s+/).filter(w => w !== "");
-
     splitText.forEach(word => {
-      randomWords?.find(item => item.word === word && dispatch(pushNewWord(item)));
-    });
+      const foundWord = allWords.find(item => item.word === word)
+
+      if (foundWord) {
+        dispatch(pushNewWord(foundWord))
+      }
+    })
   };
 
-  const clearText = () => {
-    setText('')
-  }
-
+  // Должно быть:
   useEffect(() => {
 
-    if (studiedWords.length > 0) {
-      handleGetRandomWords()
-    }
-  }, [])
+    const pushStudiedWords = async () => {
+      if (studiedWords.length > 0) { // Проверяем, есть ли слова для отправки
+        try {
+          const response = await axios.post(
+            'http://localhost:5001/user/words', // Правильный URL
+            studiedWords,
+            {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            }
+          );
+          console.log('Слова успешно отправлены:', response.data);
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            console.error('Ошибка при отправке слов:', error.response?.data?.message);
+          }
+        }
+      }
+    };
+    pushStudiedWords();
+
+  }, [studiedWords, token]);
+
+  useEffect(() => { handleGetRandomWords() }, [])
+
+  const clearText = () => { setText('') }
 
   return (
     <div className={styles.container}>
@@ -99,17 +116,10 @@ const PracticsWords: React.FC = () => {
 
           {/* Title */}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {studiedWords.length > 0 ? (
-              <div style={{ marginBottom: "20px" }}>
-                <h1>Составьте предложение</h1>
-                <p>Придумайте свое уникальное предложение и запишите его!</p>
-              </div>
-
-            ) : (
-              <div>
-                <h1>Нажмите старт</h1>
-              </div>
-            )}
+            <div style={{ marginBottom: "20px" }}>
+              <h1>Составьте предложение</h1>
+              <p>Придумайте свое уникальное предложение и запишите его!</p>
+            </div>
           </div>
 
           {/* Words */}
@@ -126,12 +136,10 @@ const PracticsWords: React.FC = () => {
             ))}
           </div>
 
-          {/* Text area */}
-          {text === "" ? <p style={{marginBottom: "15px", color: "red"}}>Введите текст</p> : ""}
+          {text === "" ? <p style={{ marginBottom: "20px", color: "red" }}>Введите текст</p> : ""}
+
           <form>
-            {randomWords && (
-              <textarea className={styles.content_area} onChange={(e) => { setText(e.target.value); handlePushNewWords() }} placeholder='Введите текст...' value={text}></textarea>
-            )}
+            <textarea className={styles.content_area} onChange={(e) => { setText(e.target.value); handlePushNewWords() }} placeholder='Введите текст...' value={text}></textarea>
           </form>
 
         </div>
