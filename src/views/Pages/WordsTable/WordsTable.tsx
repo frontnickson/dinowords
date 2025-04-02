@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import styles from './WordsTable.module.scss'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../data/store/store';
+import ErrorComponents from '../../components/ErrorComponents/ErrorComponents';
 
 const WordsTable: React.FC = () => {
 
   const userWords = useSelector((state: RootState) => state.words.words)
+  const token = useSelector((state: RootState) => state.user.token)
+
   const [limitWords, setLimitWords] = useState(15)
   const [value, setValue] = useState('')
 
@@ -24,7 +27,7 @@ const WordsTable: React.FC = () => {
 
   return (
     <div className={styles.words}>
-      <div className={styles.content}>
+      {token ? (<div className={styles.content}>
 
         <div className={styles.content_search}>
           <input type='text' placeholder="Найти слово..." className={styles.content_searchInput} onChange={(e) => { setValue(e.target.value) }} />
@@ -46,7 +49,7 @@ const WordsTable: React.FC = () => {
           <button className='btn' onClick={handleMoreWords}>Показать больше</button>
         </div>
 
-      </div>
+      </div>) : (<ErrorComponents />)}
     </div>
   );
 };

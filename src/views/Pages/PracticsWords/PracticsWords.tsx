@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { pushNewWord } from '../../../data/slices/userSlice';
 import { RootState } from '../../../data/store/store';
+import axios from 'axios';
+
 interface Word {
   id: number;
   word: string;
@@ -11,27 +13,41 @@ interface Word {
 }
 
 import styles from './PracticsWords.module.scss'
-import axios from 'axios';
+import ErrorComponents from '../../components/ErrorComponents/ErrorComponents';
 
 const PracticsWords: React.FC = () => {
 
   const dispatch = useDispatch()
+
+  // token
   const token = useSelector((state: RootState) => state.user.token)
+
+  // studied words in local State meneger
   const studiedWords = useSelector((state: RootState) => state.user.studiedWords)
-  const allWords = useSelector((state: RootState) => state.words.words)
+
+  // All words in local state manager
+  const allWords = useSelector((state: RootState) => state.words)
+
+  // Bolean checkbox for translate word (look content)
   const userTranslate = useSelector((state: RootState) => state.user.translate)
+
+  // tree part level: 2-words/4-words/5-words and easy/middle/higth
   const userLevel = useSelector((state: RootState) => state.user.level)
+
+  // text from input
   const [text, setText] = useState('')
+
+  // random words from handleGetRandomWords, generete 3 numbers from all words length
   const [randomWords, setRandomWords] = useState<Word[]>()
 
-  const handleGetRandomWords = useCallback(() => {
+  const handleGetRandomWords = () => {
     const wordsList = []
 
     if (userLevel.easy === true) {
       for (let i = 0; i < 2; i++) {
 
-        const random = Math.floor(Math.random() * allWords.length)
-        const filterList = allWords.find(item => item.id === random)
+        const random = Math.floor(Math.random() * allWords.words.length)
+        const filterList = allWords.words.find(item => item.id === random)
 
 
         if (filterList) {
@@ -41,8 +57,8 @@ const PracticsWords: React.FC = () => {
     } else if (userLevel.middle === true) {
       for (let i = 0; i < 4; i++) {
 
-        const random = Math.floor(Math.random() * allWords.length)
-        const filterList = allWords.find(item => item.id === random)
+        const random = Math.floor(Math.random() * allWords.words.length)
+        const filterList = allWords.words.find(item => item.id === random)
 
         if (filterList) {
           wordsList.push(filterList)
@@ -51,8 +67,8 @@ const PracticsWords: React.FC = () => {
     } else if (userLevel.hight === true) {
       for (let i = 0; i < 6; i++) {
 
-        const random = Math.floor(Math.random() * allWords.length)
-        const filterList = allWords.find(item => item.id === random)
+        const random = Math.floor(Math.random() * allWords.words.length)
+        const filterList = allWords.words.find(item => item.id === random)
 
         if (filterList) {
           wordsList.push(filterList)
@@ -61,13 +77,13 @@ const PracticsWords: React.FC = () => {
     }
 
     setRandomWords(wordsList)
-  }, [userLevel, allWords])
+  }
 
   const handlePushNewWords = () => {
     const splitText = text.trim().split(/\s+/).filter(w => w.length > 0);
 
     splitText.forEach(word => {
-      const foundWord = allWords.find(item => item.word === word)
+      const foundWord = allWords.words.find(item => item.word === word)
 
       if (foundWord) {
         dispatch(pushNewWord(foundWord))
@@ -75,6 +91,8 @@ const PracticsWords: React.FC = () => {
     })
 
   };
+
+  const clearText = () => { setText('') }
 
   useEffect(() => {
 
@@ -115,18 +133,53 @@ const PracticsWords: React.FC = () => {
 
   }, [studiedWords, token]);
 
-  useEffect(() => { handleGetRandomWords() }, [handleGetRandomWords])
 
-  const clearText = () => { setText('') }
+  useEffect(() => {
+    const wordsList = []
+
+    if (userLevel.easy === true) {
+      for (let i = 0; i < 2; i++) {
+
+        const random = Math.floor(Math.random() * allWords.words.length)
+        const filterList = allWords.words.find(item => item.id === random)
+
+
+        if (filterList) {
+          wordsList.push(filterList)
+        }
+      }
+    } else if (userLevel.middle === true) {
+      for (let i = 0; i < 4; i++) {
+
+        const random = Math.floor(Math.random() * allWords.words.length)
+        const filterList = allWords.words.find(item => item.id === random)
+
+        if (filterList) {
+          wordsList.push(filterList)
+        }
+      }
+    } else if (userLevel.hight === true) {
+      for (let i = 0; i < 6; i++) {
+
+        const random = Math.floor(Math.random() * allWords.words.length)
+        const filterList = allWords.words.find(item => item.id === random)
+
+        if (filterList) {
+          wordsList.push(filterList)
+        }
+      }
+    }
+
+    setRandomWords(wordsList)
+  }, [allWords.words, userLevel.easy,  userLevel.hight, userLevel.middle])
 
   return (
     <div className={styles.container}>
 
-      <div className={styles.content}>
+      {token ? (<div className={styles.content}>
 
+        {/* Title */}
         <div>
-
-          {/* Title */}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             <div style={{ marginBottom: "20px" }}>
               <h1>Составьте предложение</h1>
@@ -148,27 +201,30 @@ const PracticsWords: React.FC = () => {
             ))}
           </div>
 
+          {/* Error Message */}
           {text === "" ? <p style={{ marginBottom: "20px", color: "red" }}>Введите текст</p> : ""}
 
+          {/* Text area */}
           <form>
             <textarea className={styles.content_area} onChange={(e) => { setText(e.target.value); handlePushNewWords() }} placeholder='Введите текст...' value={text}></textarea>
           </form>
 
         </div>
 
+        {/* Buttons */}
         {randomWords ? (
           <Link to="/successeful">
-            <button className='btn' onClick={() => { handleGetRandomWords(); clearText() }} disabled={text === ""}>{randomWords ? "Отправить" : "Старт"}</button>
-            <button className='btn-mobile' onClick={() => { handleGetRandomWords(); clearText() }} disabled={text === ""}>{randomWords ? "Отправить" : "Старт"}</button>
+            <button className='btn' onClick={() => { handleGetRandomWords(); clearText() }}>{randomWords ? "Отправить" : "Старт"}</button>
+            <button className='btn-mobile' onClick={() => { handleGetRandomWords(); clearText() }}>{randomWords ? "Отправить" : "Старт"}</button>
           </Link>
         ) : (
           <div>
-            <button className='btn' onClick={() => { handleGetRandomWords(); clearText() }} disabled={text === ""}>{randomWords ? "Отправить" : "Старт"}</button>
-            <button className='btn-mobile' onClick={() => { handleGetRandomWords(); clearText() }} disabled={text === ""}>{randomWords ? "Отправить" : "Старт"}</button>
+            <button className='btn' onClick={() => { handleGetRandomWords(); clearText() }}>{randomWords ? "Отправить" : "Старт"}</button>
+            <button className='btn-mobile' onClick={() => { handleGetRandomWords(); clearText() }}>{randomWords ? "Отправить" : "Старт"}</button>
           </div>
         )}
 
-      </div>
+      </div>) : (<ErrorComponents />)}
 
     </div>
   );

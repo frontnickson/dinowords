@@ -1,0 +1,11 @@
+.conteiner{
+    max-width: var(--display-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.content{
+    padding: 50px;
+}
