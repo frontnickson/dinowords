@@ -44,6 +44,7 @@ const LogPage: React.FC = () => {
             const response = await axios.post('http://localhost:5001/login', { email, password })
 
             if (response.data.user) {
+                console.log(response);
                 dispatch(setUser(response.data.user))
                 nigative("/profile")
             }

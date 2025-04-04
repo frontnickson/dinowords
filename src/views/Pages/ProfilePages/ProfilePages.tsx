@@ -1,112 +1,119 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../data/store/store';
-import { removeUser, WordState } from '../../../data/slices/userSlice';
+import { removeUser } from '../../../data/slices/userSlice';
 import axios from 'axios';
+
+import ErrorComponents from '../../components/ErrorComponents/ErrorComponents';
 
 import progressImage from '../../images/profile/27013326_5200_4_03.png'
 import profileImage from '../../images/profile/6200_8_05.png'
 
 import styles from './ProfilePages.module.scss'
-import ErrorComponents from '../../components/ErrorComponents/ErrorComponents';
 
 const ProfilePages: React.FC = () => {
 
   const dispatch = useDispatch()
   const token = useSelector((state: RootState) => state.user.token)
-  const [userWords, setUserWords] = useState<WordState[]>()
-  console.log(userWords);
-  
+  const studiedWords = useSelector((state: RootState) => state.user.studiedWords)
+  const user = useSelector((state: RootState) => state.user)
+  console.log(user);
+
   const userName = useSelector((state: RootState) => state.user.name)
 
-  const exitProfile = () => {
-    dispatch(removeUser())
-    window.location.href = "/about"
-  }
-
-  useEffect(() => {
-    const getWords = async () => {
-      if (!token) return;
-
-      try {
-        const response = await axios.get('http://localhost:5001/user/words', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        setUserWords(response.data)
-
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error("Axios error:", error.message);
-          console.error("Response data:", error.response?.data);
-        } else {
-          console.error("Unexpected error:", error);
+  const handlePushDataUser = async () => {
+    try {
+      const response = await axios.put('http://localhost:5001/user/full', user, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         }
-      }
-    };
+      });
 
-    getWords();
-  }, [token])
+      // Проверяем, если код состояния 200 или 201, запрос успешен
+      if (response.status === 200 || response.status === 201) {
+        console.log("Данные успешно обновлены");
+        dispatch(removeUser())
+        window.location.href = "/about"
+      } else {
+        console.log("Что-то пошло не так. Код ответа:", response.status);
+      }
+
+    } catch (error) {
+      // Если ошибка, например, проблемы с сервером
+      if (error.response) {
+        // Если ошибка с кодом состояния от сервера (например 404, 500)
+        console.log("Ошибка на сервере:", error.response.status);
+        console.log("Сообщение ошибки:", error.response.data.message);
+      } else if (error.request) {
+        // Если нет ответа от сервера (например, проблемы с сетью)
+        console.log("Нет ответа от сервера:", error.request);
+      } else {
+        // Ошибка при настройке запроса
+        console.log("Ошибка при настройке запроса:", error.message);
+      }
+    }
+  };
 
   return (
     <div className={styles.profile}>
 
-      {token ? (<div className={styles.content}>
+      {token ? (
+        <div className={styles.content}>
 
-        <div className={styles.content_info}>
+          <div className={styles.content_info}>
 
-          <div className={styles.content_image}>
-            <img src={profileImage} />
-          </div>
-
-          <div className={styles.content_infoProfile}>
-            <h1>{userName}</h1>
-            <br />
-            <p>Возраст: 28</p>
-            <p>Пол: мужской</p>
-            <p>Уровень: начинающий</p>
-
-            <div style={{ marginTop: "auto" }}>
-              <p onClick={exitProfile} style={{cursor: "pointer"}}><u>Выйти из профиля</u></p>
-            </div>
-          </div>
-
-        </div>
-
-        <div className={styles.content_infoProgress}>
-
-          <div className={styles.content_infoProgressAll}>
-            <h1>Достижения</h1>
-            <Link to="/progress"><h1 style={{color: "#A99FFF"}}>ВСЕ</h1></Link>
-          </div>
-
-          <div className={styles.content_infoProgressStatus}>
-
-            <div>
-              <img src={progressImage} alt='image' />
+            <div className={styles.content_image}>
+              <img src={profileImage} />
             </div>
 
-            <div className={styles.content_infoProgressStatusInfo}>
-              <div className={styles.content_infoProgressStatusInfoTitle}>
-                <p>Начинающий</p>
-                <p>{userWords?.length}/1000</p>
-              </div>
+            <div className={styles.content_infoProfile}>
+              <h1>{userName}</h1>
+              <br />
+              <p>Возраст: 28</p>
+              <p>Пол: мужской</p>
+              <p>Уровень: начинающий</p>
 
-
-              <div style={{ height: "20px", width: "100%", backgroundColor: "grey" }}>
-                <div style={{ height: "20px", width: `${userWords?.length}px`, backgroundColor: "red" }}></div>
+              <div style={{ marginTop: "auto" }}>
+                <p onClick={handlePushDataUser} style={{ cursor: "pointer" }}><u>Выйти из профиля</u></p>
               </div>
 
             </div>
 
           </div>
 
-        </div>
+          <div className={styles.content_infoProgress}>
 
-      </div>) : (<ErrorComponents />)}
+            <div className={styles.content_infoProgressAll}>
+              <h1>Достижения</h1>
+              <Link to="/progress"><h1 style={{ color: "#A99FFF" }}>ВСЕ</h1></Link>
+            </div>
+
+            <div className={styles.content_infoProgressStatus}>
+
+              <div>
+                <img src={progressImage} alt='image' />
+              </div>
+
+              <div className={styles.content_infoProgressStatusInfo}>
+                <div className={styles.content_infoProgressStatusInfoTitle}>
+                  <p>Начинающий</p>
+                  <p>{studiedWords?.length}/1000</p>
+                </div>
+
+
+                <div style={{ height: "20px", width: "100%", backgroundColor: "grey" }}>
+                  <div style={{ height: "20px", width: `${studiedWords?.length}px`, backgroundColor: "red" }}></div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>) : (<ErrorComponents />)}
 
     </div>
   );

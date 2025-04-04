@@ -40,6 +40,7 @@ const initialState: UserState = {
     translate: false
 }
 
+
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -50,7 +51,9 @@ const userSlice = createSlice({
             state.token = action.payload.token
             state.id = action.payload.id + 1
             state.name = action.payload.name
-            state.level = {easy: false, middle: false, hight: false}
+            state.image = action.payload.image
+            state.studiedWords = action.payload.studiedWords
+            state.level = { easy: false, middle: false, hight: false }
             state.stressTime = 0
             state.translate = false
         },
@@ -58,6 +61,9 @@ const userSlice = createSlice({
         removeUser(state) {
             state.email = "";
             state.token = "";
+            state.id = 0;
+            state.name = "";
+            state.image = "";
             state.studiedWords = [];
         },
         setLevel(state, action: PayloadAction<string>) {
@@ -89,16 +95,10 @@ const userSlice = createSlice({
             }
         },
         pushNewWord(state, action: PayloadAction<WordState>) {
-            if (!state.studiedWords.some(item => item.word === action.payload.word)) {
-                state.studiedWords.push(action.payload);
+            const existingWords = state.studiedWords.find(item => item.word === action.payload.word)
+            if (!existingWords) {
+                state.studiedWords.push(action.payload)
             }
-
-            state.studiedWords = state.studiedWords.map(item => {
-                if (item.word === action.payload.word) {
-                    item.know = true;
-                }
-                return item;
-            });
         },
         setImage(state, action: PayloadAction<string>) {
             state.image = action.payload;
