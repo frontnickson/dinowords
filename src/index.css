@@ -42,10 +42,12 @@ a {
 
 
 /* standart btn */
+
+
 .btn {
     background-color: #49AF08;
     width: 222px;
-    height: 48px;
+    height: 65px;
     border-radius: 17px;
     color: white;
     font-size: 20px;
@@ -55,7 +57,7 @@ a {
 
 .btn:hover {
     transition: 0.3s;
-    background-color: #6bdc24;
+    background-color: #36780d;
     cursor: pointer;
 }
 
@@ -64,108 +66,4 @@ a {
     background-color: #49AF08;
     cursor: pointer;
     border-bottom: 1px solid black;
-}
-
-/* big btn */
-
-.btn-big {
-    background-color: #49AF08;
-    width: 353px;
-    height: 75px;
-    border-radius: 17px;
-    color: white;
-    font-size: 32px;
-    font-weight: bold;
-    border-bottom: 5px solid black;
-    margin-top: 30px;
-}
-
-.btn-big:hover {
-    transition: 0.3s;
-    background-color: #6bdc24;
-    cursor: pointer;
-}
-
-.btn-big:active {
-    transition: 0.3s;
-    background-color: #49AF08;
-    cursor: pointer;
-    border-bottom: 1px solid black;
-}
-
-/* btn mobile */
-
-.btn-mobile {
-    background-color: #49AF08;
-    width: 222px;
-    height: 48px;
-    border-radius: 17px;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    border-bottom: 3px solid black;
-    cursor: pointer;
-    display: none;
-}
-
-.btn-mobile:hover {
-    transition: 0.3s;
-    background-color: #6bdc24;
-    cursor: pointer;
-}
-
-.btn-mobile:active {
-    transition: 0.3s;
-    background-color: #49AF08;
-    cursor: pointer;
-    border-bottom: 1px solid black;
-}
-
-
-/* btn element */
-
-.btn-element {
-    border: none;
-    border-radius: 15px;
-    height: 50px;
-    width: 180px;
-    background-color: var(--lavender-dream);
-    cursor: pointer;
-}
-
-.btn-element:hover {
-    background-color: var(--soft-violet);
-}
-
-.btn-element-disabled{
-    border: none;
-    border-radius: 15px;
-    height: 50px;
-    width: 180px;
-    background-color: var(--btn-footer);
-}
-
-
-@media (max-width: 960px) {
-    .btn {
-        display: none;
-    }
-
-    .btn-mobile{
-        display: block;
-    }
-
-    .btn-big {
-        width: 222px;
-        height: 48px;
-        font-size: 20px;
-    }
-}
-
-@media (max-width: 450px) {
-    .btn-mobile{
-        display: block;
-        width: 180px;
-        height: 38px;
-    }
 }

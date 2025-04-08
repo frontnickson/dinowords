@@ -6,7 +6,7 @@ import ErrorComponents from '../../components/ErrorComponents/ErrorComponents';
 
 const WordsTable: React.FC = () => {
 
-  const userWords = useSelector((state: RootState) => state.words)
+  const userWords = useSelector((state: RootState) => state.words.words)
   const token = useSelector((state: RootState) => state.user.token)
 
   const [limitWords, setLimitWords] = useState(15)

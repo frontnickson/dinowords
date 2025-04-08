@@ -10,6 +10,7 @@ export interface WordState {
     word: string;
     translate: string;
     know: boolean;
+    imageLink: string;
 }
 
 interface UserState {

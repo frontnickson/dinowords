@@ -1,41 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import styles from './QuestionPage.module.scss'
 
 const QuestionPage: React.FC = () => {
 
-  const buttonActive = {
-    border: "none",
-    borderRadius: "15px",
-    height: "50px",
-    width: "180px",
-    backgroundColor: "#A99FFF",
-    cursor: "pointer"
-  };
-
-  const buttonDisabled = {
-    border: "none",
-    borderRadius: "15px",
-    color: "white",
-    height: "50px",
-    width: "180px",
-    backgroundColor: "#616161",
-    cursor: "pointer"
-  };
-
-  const [useBtn, setUseBtn] = useState(false)
-
-  const handleChoose = () => {
-    if (!useBtn) {
-      setUseBtn(true)
-    } else {
-      setUseBtn(false)
-    }
-  }
+  const [practicsBtn, setPracticsBtn] = useState(false)
+  const [recordBtn, setRecordBtn] = useState(false)
+  const [crosswordBtn, setCrosswordBtn] = useState(false)
 
   return (
     <div className={styles.container}>
+
       <div className={styles.content}>
 
         <div>
@@ -43,26 +18,31 @@ const QuestionPage: React.FC = () => {
         </div>
 
         <div className={styles.content_buttons}>
-          <button style={useBtn ? buttonActive : buttonDisabled} onClick={handleChoose}>Практика слов</button>
+          <button className={practicsBtn ? styles.content_active : styles.content_disabled} onClick={() => { if (!recordBtn && !crosswordBtn) { setPracticsBtn(!practicsBtn) } else { return } }}>Практика слов</button>
+          <button className={recordBtn ? styles.content_active : styles.content_disabled} onClick={() => { if (!practicsBtn && !crosswordBtn) { setRecordBtn(!recordBtn) } else { return } }}>Динозавр на время</button>
+          <button className={crosswordBtn ? styles.content_active : styles.content_disabled} onClick={() => { if (!practicsBtn && !recordBtn) { setCrosswordBtn(!crosswordBtn) } else { return } }}>Кроссворд</button>
         </div>
 
         <div>
-          {useBtn ? (
-            <Link to="/level">
-              <div>
-                <button className='btn'>Далее</button>
-                <button className='btn-mobile'>Далее</button>
-              </div>
-            </Link>
-          ) : (
-            <div>
-              <button className='btn'>Выберите</button>
-              <button className='btn-mobile'>Выберите</button>
-            </div>
-          )}
+          <button
+            className='btn'
+            disabled={!practicsBtn && !recordBtn && !crosswordBtn}
+            onClick={() => {
+              if (practicsBtn) {
+                window.location.href = "/level";
+              } else if (recordBtn) {
+                window.location.href = "/record";
+              } else if (crosswordBtn) {
+                window.location.href = "/crossword";
+              }
+            }}
+          > Далее
+          </button>
+
         </div>
 
       </div>
+
     </div>
   );
 };

@@ -58,13 +58,11 @@ const LevelPage: React.FC = () => {
                         <Link to="/practics">
                             <div>
                                 <button className='btn'>Далее</button>
-                                <button className='btn-mobile'>Далее</button>
                             </div>
                         </Link>
                     ) : (
                         <div>
                             <button className='btn'>Выберите</button>
-                            <button className='btn-mobile'>Выберите</button>
                         </div>
                     )}
                 </div>

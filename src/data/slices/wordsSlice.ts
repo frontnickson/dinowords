@@ -1,20 +1,23 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { words } from "../constants/words";
 import { WordState } from "./userSlice";
 
+interface StateWords {
+  words: WordState[];
+  activeWords: boolean;
+}
 
-const initialState = words;
+const initialState: StateWords = {
+  words: words,
+  activeWords: false
+};
 
 const wordsSlice = createSlice({
   name: "words",
   initialState,
-  reducers: {
-    editStatusWord: (state, action: PayloadAction<WordState>) => {
-      return state.map(item => item.id === action.payload.id ? { ...item, know: true } : item)
-    }
-  },
+  reducers: {},
 });
 
-export const { editStatusWord } = wordsSlice.actions
+// export const { editStatusWord } = wordsSlice.actions
 
 export default wordsSlice.reducer;

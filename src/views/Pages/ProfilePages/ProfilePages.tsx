@@ -18,7 +18,6 @@ const ProfilePages: React.FC = () => {
   const token = useSelector((state: RootState) => state.user.token)
   const studiedWords = useSelector((state: RootState) => state.user.studiedWords)
   const user = useSelector((state: RootState) => state.user)
-  console.log(user);
 
   const userName = useSelector((state: RootState) => state.user.name)
 
@@ -31,7 +30,6 @@ const ProfilePages: React.FC = () => {
         }
       });
 
-      // Проверяем, если код состояния 200 или 201, запрос успешен
       if (response.status === 200 || response.status === 201) {
         console.log("Данные успешно обновлены");
         dispatch(removeUser())
@@ -41,17 +39,8 @@ const ProfilePages: React.FC = () => {
       }
 
     } catch (error) {
-      // Если ошибка, например, проблемы с сервером
-      if (error.response) {
-        // Если ошибка с кодом состояния от сервера (например 404, 500)
-        console.log("Ошибка на сервере:", error.response.status);
-        console.log("Сообщение ошибки:", error.response.data.message);
-      } else if (error.request) {
-        // Если нет ответа от сервера (например, проблемы с сетью)
-        console.log("Нет ответа от сервера:", error.request);
-      } else {
-        // Ошибка при настройке запроса
-        console.log("Ошибка при настройке запроса:", error.message);
+      if(axios.isAxiosError(error)){
+        console.log(error);
       }
     }
   };
