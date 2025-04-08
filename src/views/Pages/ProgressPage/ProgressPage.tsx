@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../data/store/store';
-import axios from 'axios';
 import wordsImage from '../../images/progress/27013326_5200_4_03.png'
-import { WordState } from '../../../data/slices/userSlice';
 
 import styles from './ProgressPages.module.scss'
 import ErrorComponents from '../../components/ErrorComponents/ErrorComponents';

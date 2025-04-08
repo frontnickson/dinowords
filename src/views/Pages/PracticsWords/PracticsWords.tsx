@@ -10,12 +10,11 @@ import styles from './PracticsWords.module.scss'
 const PracticsWords: React.FC = () => {
 
   const token = useSelector((state: RootState) => state.user.token)
-  const userLevel = useSelector((state: RootState) => state.user.level)   // userLevel - { easy: false, middle: false, higth:false }
+  const userLevel = useSelector((state: RootState) => state.user.level)   // userLevel - { easy: false, middle: false, higth: false }
   const words = useSelector((state: RootState) => state.words) // words - [ { id: 1, word: name, translate: имя, know: boolean }... ]
   const [level] = useState(userLevel.easy ? 2 : userLevel.middle ? 4 : userLevel.hight ? 6 : 6)
   const [randomWords, setRandomWords] = useState<WordState[]>([])
   const [text, setText] = useState('')
-  
 
   // Function to get random
   const handleGetRandomWords = (n: number) => {
@@ -27,9 +26,9 @@ const PracticsWords: React.FC = () => {
     
     const wordsList = []
 
-    for (let i = 0; i < n; i++) {
-      const random = Math.floor(Math.random() * words.words.length)
-      const randomWords = words.words[random]
+    for (let i :number = 0; i < n; i++) {
+      const random: number = Math.floor(Math.random() * words.words.length)
+      const randomWords: WordState = words.words[random]
       wordsList.push(randomWords)
     }
 
