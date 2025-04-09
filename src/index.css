@@ -68,32 +68,32 @@ a {
     border-bottom: 1px solid black;
 }
 
-.btn-mobile {
-    background-color: #49AF08;
-    width: 222px;
-    height: 65px;
-    border-radius: 17px;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    border-bottom: 3px solid black;
+/*FORM*/
+
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--element-grey);
+    height: 550px;
+    width: 500px;
+    padding: 35px;
+    border-radius: 25px;
 }
 
-.btn-mobile:hover {
-    transition: 0.3s;
-    background-color: #36780d;
-    cursor: pointer;
+.inputForm{
+    height: 40px;
+    width: 100%;
+    border-radius: 25px;
+    padding-left: 15px;
+    border: none;
 }
 
-.btn-mobile:active {
-    transition: 0.3s;
-    background-color: #49AF08;
-    cursor: pointer;
-    border-bottom: 1px solid black;
-}
+/*FORM*/
 
 @media (max-width: 960px) {
     .btn{
-        display: none;
+
     }
 }

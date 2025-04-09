@@ -52,6 +52,7 @@ const Header: React.FC = () => {
 
       {user ? (
         <div className={styles.content}>
+
           <Link to="/about" style={{ display: "flex", alignItems: "center" }}>
             <img src={logo} alt='logo' className={styles.content_logo} />
           </Link>
@@ -124,17 +125,10 @@ const Header: React.FC = () => {
         </div>
       ) : (
         <div className={styles.content}>
+
           <Link to="/about" style={{ display: "flex", alignItems: "center" }}>
             <img src={logo} alt='logo' className={styles.content_logo} />
           </Link>
-
-          <div className={styles.content_con}>
-
-            <Link to="/login">
-              <button className='btn'>Войти</button>
-            </Link>
-
-          </div>
 
         </div>
       )}

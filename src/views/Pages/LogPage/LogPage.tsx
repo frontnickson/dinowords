@@ -1,112 +1,104 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../../data/slices/userSlice';
+import {useDispatch} from 'react-redux';
+import {setUser} from '../../../data/slices/userSlice';
 
 import styles from './LogPage.module.scss';
 
 const LogPage: React.FC = () => {
 
     const dispatch = useDispatch()
-    const nigative = useNavigate()
-    const [text, setText] = useState(false);
-    const [errorText, setErrorText] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState("Просмотреть пароль");
     const [type, setType] = useState("password");
 
-    const handleShowPassword = () => {
-        if (password !== "") {
-            if (showPassword === "Просмотреть пароль") {
-                setType("text");
-                setShowPassword("Скрыть пароль");
-            } else {
-                setType("password");
-                setShowPassword("Просмотреть пароль");
-            }
-        }
-    };
+    // if missing value in form
+    const [missingValue, setMissingValue] = useState(false);
 
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        if (email === "" && password === "") {
-            setText(true)
+
+        if (email === '' && password === '') {
+            setMissingValue(true)
+        } else {
+
+            try {
+                const response = await axios.post('http://localhost:5001/login', {email, password})
+
+                if (response.data.user) {
+                    dispatch(setUser(response.data.user))
+                    window.location.href = "/profile"
+                }
+
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    setEmail('')
+                    setPassword('')
+                    console.error('Login error:', error.response?.data?.message || 'Unknown error')
+                }
+            }
         }
 
-        try {
-            const response = await axios.post('http://localhost:5001/login', { email, password })
-
-            if (response.data.user) {
-                console.log(response);
-                dispatch(setUser(response.data.user))
-                nigative("/profile")
-            }
-
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                setErrorText("Пользователь не найден")
-                setEmail('')
-                setPassword('')
-                console.error('Login error:', error.response?.data?.message || 'Unknown error')
-            }
-        }
     }
 
     return (
-        <div className={styles.registration}>
+        <div className={styles.container}>
 
-            <div className={styles.content}>
+            <form className='form'>
 
-                <div className={styles.content_title} style={{ display: "flex", flexDirection: "column" }}>
-                    <h1>Войти в профиль</h1>
-                    {text && <h5 style={{ color: "red" }}>Вы не ввели данные</h5>}
-                    {errorText}
-                </div>
+                <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
 
-                <form className={styles.content_form}>
-                    <div className={styles.content_form_container}>
-                        <p>Почта</p>
-                        <input
-                            type="email"
-                            placeholder='Почта..'
-                            className={styles.content_form_containerInput}
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                    {/*TITLE*/}
+                    <h1 style={{marginBottom: "15px"}}>Войти</h1>
+                    {missingValue && (
+                        <p style={{marginBottom: "15px", color: "red"}}>Вы не ввели данные</p>
+                    )}
+
+                    {/*EMAIL*/}
+                    <input
+                        type="email"
+                        placeholder='Почта..'
+                        className='inputForm'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+
+
+                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <p>Показать пароль</p>
+                        <input type="checkbox" onChange={(e) => {
+                            if (e.target.checked) {
+                                setType("text")
+                            } else {
+                                setType("password")
+                            }
+                        }}/>
                     </div>
 
-                    <div className={styles.content_form_container}>
-                        <div className={styles.content_form_containerTitle}>
-                            <p>Пароль</p>
-                            <p className={styles.content_form_containerTitleShow} onClick={handleShowPassword}>
-                                {showPassword}
-                            </p>
-                        </div>
-                        <input
-                            type={type}
-                            placeholder='Пароль..'
-                            className={styles.content_form_containerInput}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
+                    {/*PASSWORD*/}
+                    <input
+                        type={type}
+                        placeholder='Пароль..'
+                        className='inputForm'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
 
                     <div className={styles.content_button}>
                         <button type="button" className='btn' onClick={handleLogin}>Войти</button>
                     </div>
 
-                    <div className={styles.content_footer}>
-                        <Link to="/registration">
-                            <p>Зарегистрироваться</p>
-                        </Link>
+                    <div>
+                        <p>Нету профиля? <Link to="/registration">Зарегестрируйтесь!</Link></p>
                     </div>
-                </form>
 
-            </div>
+                </div>
+
+            </form>
+
         </div>
     );
-};
+}
 
 export default LogPage;
