@@ -6,7 +6,7 @@ const QuestionPage: React.FC = () => {
 
   const [practicsBtn, setPracticsBtn] = useState(false)
   const [recordBtn, setRecordBtn] = useState(false)
-  const [crosswordBtn, setCrosswordBtn] = useState(false)
+  const [crosswordBtn] = useState(false)
 
   return (
     <div className={styles.container}>
@@ -19,8 +19,7 @@ const QuestionPage: React.FC = () => {
 
         <div className={styles.content_buttons}>
           <button className={practicsBtn ? styles.content_active : styles.content_disabled} onClick={() => { if (!recordBtn && !crosswordBtn) { setPracticsBtn(!practicsBtn) } else { return } }}>Практика слов</button>
-          <button className={recordBtn ? styles.content_active : styles.content_disabled} onClick={() => { if (!practicsBtn && !crosswordBtn) { setRecordBtn(!recordBtn) } else { return } }}>Динозавр на время</button>
-          <button className={crosswordBtn ? styles.content_active : styles.content_disabled} onClick={() => { if (!practicsBtn && !recordBtn) { setCrosswordBtn(!crosswordBtn) } else { return } }}>Кроссворд</button>
+          <button className={recordBtn ? styles.content_active : styles.content_disabled} onClick={() => { if (!practicsBtn && !crosswordBtn) { setRecordBtn(!recordBtn) } else { return } }}>Угадай картинку</button>
         </div>
 
         <div>
@@ -32,8 +31,6 @@ const QuestionPage: React.FC = () => {
                 window.location.href = "/level";
               } else if (recordBtn) {
                 window.location.href = "/record";
-              } else if (crosswordBtn) {
-                window.location.href = "/crossword";
               }
             }}
           > Далее

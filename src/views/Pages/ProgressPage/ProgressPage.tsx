@@ -9,6 +9,8 @@ import styles from './ProgressPages.module.scss'
 const ProgressPages: React.FC = () => {
 
     const userWords = useSelector((state: RootState) => state.user.studiedWords)
+    const userWordsIamge = useSelector((state: RootState) => state.user.studiedImage)
+
     const [statusStudiedWords] = useState(() => {
         if (userWords.length < 20) {
             return "Начинаюищй"
@@ -63,13 +65,13 @@ const ProgressPages: React.FC = () => {
                                     <h2>{statusStudiedWords}</h2>
                                     <p style={{opacity: "50%"}}>Угадали картинок</p>
                                 </div>
-                                <h2>{userWords.length > 0 ? userWords.length : "0"}/100</h2>
+                                <h2>{userWordsIamge.length > 0 ? userWordsIamge.length : "0"}/100</h2>
                             </div>
 
                             <div style={{height: "20px", width: "100%", backgroundColor: "grey"}}>
                                 <div style={{
                                     height: "20px",
-                                    width: `${userWords.length}px`,
+                                    width: `${userWordsIamge.length}px`,
                                     backgroundColor: "red"
                                 }}></div>
                             </div>
