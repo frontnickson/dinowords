@@ -23,9 +23,6 @@ const SuccessfulPage: React.FC = () => {
                 <Link to="/practics">
                     <button className='btn'>Далее</button>
                 </Link>
-                <Link to="/practics">
-                    <button className='btn-mobile'>Далее</button>
-                </Link>
             </div>
         </div>
     );

@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import vk from '../../images/registration-icon/cib_vk.svg';
-import google from '../../images/registration-icon/devicon_google.svg';
-
-
-
-
-import styles from './LogPage.module.scss';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../data/slices/userSlice';
+
+import styles from './LogPage.module.scss';
 
 const LogPage: React.FC = () => {
 
@@ -98,18 +93,8 @@ const LogPage: React.FC = () => {
                         />
                     </div>
 
-                    <div className={styles.content_social}>
-                        <p>Авторизуйтесь с помощью сервисов</p>
-                    </div>
-
-                    <div className={styles.content_icons}>
-                        <img src={vk} alt='vk' />
-                        <img src={google} alt='google' />
-                    </div>
-
                     <div className={styles.content_button}>
                         <button type="button" className='btn' onClick={handleLogin}>Войти</button>
-                        <button type="button" className='btn-mobile' onClick={handleLogin}>Войти</button>
                     </div>
 
                     <div className={styles.content_footer}>

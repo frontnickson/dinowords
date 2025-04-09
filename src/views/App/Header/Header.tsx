@@ -132,7 +132,6 @@ const Header: React.FC = () => {
 
             <Link to="/login">
               <button className='btn'>Войти</button>
-              <button className='btn-mobile'>Войти</button>
             </Link>
 
           </div>

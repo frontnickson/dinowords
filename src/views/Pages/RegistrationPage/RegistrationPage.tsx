@@ -1,53 +1,54 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React, {useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
-
-
-
-import vk from '../../images/registration-icon/cib_vk.svg';
-import google from '../../images/registration-icon/devicon_google.svg';
+import {setMan, setUser, setWoman} from '../../../data/slices/userSlice';
 
 import styles from './RegistrationPage.module.scss';
-import { setUser } from '../../../data/slices/userSlice';
+import AgeComponents from "../../components/AgeComponents/AgeComponents.tsx";
+import {RootState} from "../../../data/store/store.ts";
 
 const RegisterPage: React.FC = () => {
 
     const dispatch = useDispatch()
-    const nigative = useNavigate()
+    const age = useSelector((state: RootState) => state.user.age)
+    const man = useSelector((state: RootState) => state.user.man)
+    const woman = useSelector((state: RootState) => state.user.woman)
 
+    const nigative = useNavigate()
     const [text, setText] = useState(false);
     const [textError, setTextError] = useState('')
-
-
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
     const [showPassword, setShowPassword] = useState("Просмотреть пароль");
     const [type, setType] = useState("password");
-
 
     const handleRegistration = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setTextError('');
-        
+
         if (email === "" || password === "" || name === "") {
             setText(true);
             return;
         }
         setText(false);
-    
+
         try {
-            const res = await axios.post('http://localhost:5001/register', { email, password, name });
-            
+            const res = await axios.post('http://localhost:5001/register', {email, password, name, age, man, woman});
+
             if (res.data.token) {
                 const newUser = {
                     email: email,
                     token: res.data.token,
                     id: res.data.user.id,
                     name: name,
+                    age: age,
+                    man: man,
+                    woman: woman,
                     image: "",
                     studiedWords: [],
+                    studiedImage: [],
                     level: {
                         easy: false,
                         middle: false,
@@ -56,7 +57,7 @@ const RegisterPage: React.FC = () => {
                     stressTime: 0,
                     translate: false
                 };
-    
+
                 dispatch(setUser(newUser));
                 nigative("/profile");
             }
@@ -81,11 +82,12 @@ const RegisterPage: React.FC = () => {
 
     return (
         <div className={styles.registration}>
+
             <div className={styles.content}>
 
-                <div className={styles.content_title} style={{ display: "flex", flexDirection: "column" }}>
+                <div className={styles.content_title} style={{display: "flex", flexDirection: "column"}}>
                     <h1>Регистрация</h1>
-                    {text && <h5 style={{ color: "red" }}>Вы не ввели все данные</h5>}
+                    {text && <h5 style={{color: "red"}}>Вы не ввели все данные</h5>}
                     {textError}
                 </div>
 
@@ -100,6 +102,29 @@ const RegisterPage: React.FC = () => {
                             onChange={(e) => setName(e.target.value)}
                             required
                         />
+                    </div>
+
+                    <div className={styles.content_form_container}>
+                        <p>Возраст</p>
+                        <AgeComponents/>
+                    </div>
+
+                    <div className={styles.content_form_container}>
+                        <p>Пол:</p>
+                        <div style={{display: "flex"}}>
+                            <div>
+                                <p>Мужчина</p>
+                                <input type="checkbox" onChange={() => {
+                                    dispatch(setMan(true))
+                                }}/>
+                            </div>
+                            <div>
+                                <p>Женщина</p>
+                                <input type="checkbox" onChange={() => {
+                                    dispatch(setWoman(true))
+                                }}/>
+                            </div>
+                        </div>
                     </div>
 
                     <div className={styles.content_form_container}>
@@ -131,18 +156,8 @@ const RegisterPage: React.FC = () => {
                         />
                     </div>
 
-                    <div className={styles.content_social}>
-                        <p>Зарегистрируйтесь с помощью сервисов</p>
-                    </div>
-
-                    <div className={styles.content_icons}>
-                        <img src={vk} alt='vk' />
-                        <img src={google} alt='google' />
-                    </div>
-
                     <div className={styles.content_button}>
                         <button type="button" className='btn' onClick={handleRegistration}>Регистрация</button>
-                        <button type="button" className='btn-mobile' onClick={handleRegistration}>Регистрация</button>
                     </div>
 
                     <div className={styles.content_footer}>

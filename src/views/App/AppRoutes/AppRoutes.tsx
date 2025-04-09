@@ -14,6 +14,7 @@ import { RootState } from '../../../data/store/store';
 import { useSelector } from 'react-redux';
 import ErrorComponents from '../../components/ErrorComponents/ErrorComponents';
 import RecordPage from '../../Pages/RecordPage/RecordPage';
+import AfterRegistrationPage from "../../Pages/AfterRegistrationPage/AfterRegistrationPage.tsx";
 
 const AppRoutes: React.FC = () => {
   const token = useSelector((state: RootState) => state.user.token)
@@ -33,6 +34,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/practics" element={<PracticsWords />} />
           <Route path="/successeful" element={<SuccessfulPage />} />
           <Route path="/record" element={<RecordPage />} />
+          <Route path="/after" element={<AfterRegistrationPage />} />
           <Route path="*" element={<ErrorComponents />} />
         </>
       ) : (

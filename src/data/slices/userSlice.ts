@@ -1,10 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 
 interface LevelState {
     easy: boolean;
     middle: boolean;
     hight: boolean;
 }
+
 export interface WordState {
     id: number;
     word: string;
@@ -18,8 +19,12 @@ interface UserState {
     token: string;
     id: number;
     name: string;
+    age: number;
+    man: boolean;
+    woman: boolean;
     image: string;
     studiedWords: WordState[];
+    studiedImage: WordState[];
     level: LevelState;
     stressTime: number;
     translate: boolean
@@ -30,8 +35,12 @@ const initialState: UserState = {
     token: "",
     id: 0,
     name: "",
+    age: 0,
+    man: false,
+    woman: false,
     image: "",
     studiedWords: [],
+    studiedImage: [],
     level: {
         easy: false,
         middle: false,
@@ -54,7 +63,7 @@ const userSlice = createSlice({
             state.name = action.payload.name
             state.image = action.payload.image
             state.studiedWords = action.payload.studiedWords
-            state.level = { easy: false, middle: false, hight: false }
+            state.level = {easy: false, middle: false, hight: false}
             state.stressTime = 0
             state.translate = false
         },
@@ -66,6 +75,22 @@ const userSlice = createSlice({
             state.name = "";
             state.image = "";
             state.studiedWords = [];
+            state.age = 0;
+            state.man = false;
+            state.woman = false;
+        },
+        setAge(state, action: PayloadAction<number>) {
+            state.age = action.payload;
+        },
+        setMan(state, action: PayloadAction<boolean>) {
+            if (!state.woman) {
+                state.man = action.payload
+            }
+        },
+        setWoman(state, action: PayloadAction<boolean>) {
+            if(!state.man) {
+                state.woman = action.payload;
+            }
         },
         setLevel(state, action: PayloadAction<string>) {
             if (action.payload === "easy") {
@@ -101,6 +126,12 @@ const userSlice = createSlice({
                 state.studiedWords.push(action.payload)
             }
         },
+        pushNewImage(state, action: PayloadAction<WordState>) {
+            const existingWords = state.studiedImage.find(item => item.word === action.payload.word)
+            if (!existingWords) {
+                state.studiedImage.push(action.payload)
+            }
+        },
         setImage(state, action: PayloadAction<string>) {
             state.image = action.payload;
         },
@@ -110,7 +141,19 @@ const userSlice = createSlice({
     },
 })
 
-export const { setUser, removeUser, setLevel, setTranslate, pushNewWord, setImage, setToken } = userSlice.actions;
+export const {
+    setUser,
+    removeUser,
+    setLevel,
+    setTranslate,
+    pushNewWord,
+    setImage,
+    setToken,
+    pushNewImage,
+    setAge,
+    setMan,
+    setWoman,
+} = userSlice.actions;
 export default userSlice.reducer;
 
 
