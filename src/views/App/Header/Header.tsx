@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Link, NavLink} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../../data/store/store';
+import {useDispatch} from 'react-redux';
 import {removeUser} from '../../../data/slices/userSlice';
 
 import logo from '../../images/logo.svg'
@@ -20,7 +19,6 @@ const Header: React.FC = () => {
     const dispatch = useDispatch()
     const [menu, setMenu] = useState<boolean>(false)
     const [opactiy, setOpactiy] = useState({opacity: 0})
-    const user = useSelector((state: RootState) => state.user.token)
 
     const handleClick = () => {
         setOpactiy({opacity: 0});
