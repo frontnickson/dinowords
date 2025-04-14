@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Ширина на весь вьюпорт */
+  height: 100vh; /* Высота на весь вьюпорт */
+  background-color: white;
+  z-index: 999;
+
+  &_list {
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+    gap: 25px;
+    text-align: center;
+
+    &Btn {
+      background-color: #49AF08;
+      width: 222px;
+      height: 65px;
+      border-radius: 17px;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    &Close{
+      width: 30px;
+      position: absolute;
+      top: 55px;
+      right: 55px;
+    }
+
+    &Btn:hover {
+      transition: 0.3s;
+      background-color: #36780d;
+      cursor: pointer;
+    }
+
+    &Btn:active {
+      transition: 0.3s;
+      background-color: #49AF08;
+      cursor: pointer;
+      border-bottom: 1px solid black;
+    }
+  }
+}
+

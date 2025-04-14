@@ -1,149 +1,69 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import {Link, NavLink} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import {removeUser} from '../../../data/slices/userSlice';
-
 import logo from '../../images/logo.svg'
 import burgerMenu from '../../images/burger-menu.svg'
 import wordsIcon from '../../images/words-icon.svg'
 import progressIcon from '../../images/progress-icon.svg'
 import profileIcon from '../../images/profile-icon.svg'
-import closeIcon from '../../images/close.svg'
 import fireIcon from '../../images/fire-icon.svg'
+import MobileMenuComponents from "../../components/mobileMenuComponents/mobileMenuComponents.tsx";
 
 
 import styles from './Header.module.scss'
 
 const Header: React.FC = () => {
 
-    const dispatch = useDispatch()
-    const [menu, setMenu] = useState<boolean>(false)
-    const [opactiy, setOpactiy] = useState({opacity: 0})
+  const [menu, setMenu] = useState<boolean>(false)
+  const closeMenu = () => setMenu(false);
 
-    const handleClick = () => {
-        setOpactiy({opacity: 0});
+  const navLinks   = [
+    {to: '/about', icon: fireIcon, text: 'О сервисе', alt: 'about'},
+    {to: '/words', icon: wordsIcon, text: 'Таблица слов', alt: 'words'},
+    {to: '/progress', icon: progressIcon, text: 'Изученные слова', alt: 'progress'},
+    {to: '/profile', icon: profileIcon, text: 'Профиль', alt: 'profile'},
+  ];
 
-        setTimeout(() => {
-            setOpactiy({opacity: 1});
-        }, 100);
-    };
+  return (
+      <header className={styles.header}>
 
-    const handleClose = () => {
-        setOpactiy({opacity: 1});
+        <div className={styles.content}>
 
-        setTimeout(() => {
-            setOpactiy({opacity: 0})
-        }, 100)
+          <Link to="/about" style={{display: "flex", alignItems: "center"}}>
+            <img src={logo} alt='logo' className={styles.content_logo}/>
+          </Link>
 
-        setTimeout(() => {
-            setMenu(false)
-        }, 200)
-    }
+          <div className={styles.content_con}>
 
-    const handleExitProfile = () => {
-        dispatch(removeUser())
-        window.location.href = "/about"
-    }
+            <nav className={styles.content_conNav}>
+              <ul className={styles.content_conList}>
+                {navLinks.map(({to, icon, text, alt}) => (
+                    <NavLink key={to} to={to}>
+                      <li>
+                        <p className={styles.content_conListItem}>
+                          <img src={icon} alt={alt}/>
+                          {text}
+                        </p>
+                      </li>
+                    </NavLink>
+                ))}
+              </ul>
+            </nav>
 
-    return (
-        <header className={styles.header}>
-            <div className={styles.content}>
+            <button className={styles.content_conButton}>Начать практику</button>
 
-                <Link to="/about" style={{display: "flex", alignItems: "center"}}>
-                    <img src={logo} alt='logo' className={styles.content_logo}/>
-                </Link>
+            <img className={styles.content_burger} src={burgerMenu} alt='menu' onClick={() => {
+              setMenu(true);
+            }}/>
 
-                <div className={styles.content_con}>
+          </div>
 
-                    <nav className={styles.content_conNav}>
-                        <ul className={styles.content_conList}>
+          {menu && (
+              <MobileMenuComponents menu={menu} closeMenu={closeMenu}/>
+          )}
 
-                            <NavLink to="/about">
-                                <li><p className={styles.content_conListItem}><img src={fireIcon} alt='words'/>О сервисе
-                                </p></li>
-                            </NavLink>
-
-                            <NavLink to="/words">
-                                <li><p className={styles.content_conListItem}><img src={wordsIcon} alt='words'/>Таблица
-                                    слов</p></li>
-                            </NavLink>
-
-                            <NavLink to="/progress">
-                                <li><p className={styles.content_conListItem}><img src={progressIcon} alt='progress'/>Изученные
-                                    слова</p></li>
-                            </NavLink>
-
-                            <NavLink to="/profile">
-                                <li><p className={styles.content_conListItem}><img src={profileIcon} alt='prfile'/>Профиль
-                                </p></li>
-                            </NavLink>
-
-                        </ul>
-                    </nav>
-
-                    <Link to="/quest">
-                        <button className='btn'>Начать практику</button>
-                    </Link>
-
-                    <img className={styles.content_burger} src={burgerMenu} alt='menu' onClick={() => {
-                        setMenu(true);
-                        handleClick()
-                    }}/>
-
-                </div>
-
-                {menu && (
-                    <div className={styles.content_menu} style={opactiy}>
-
-                        <button className={styles.content_menuClose} onClick={() => {
-                            handleClose()
-                        }}><img src={closeIcon} alt='close'/></button>
-
-                        <ul className={styles.content_menuList}>
-
-                            <Link to="/about" onClick={() => {
-                                setMenu(false)
-                            }}>
-                                <li><p style={{display: "flex", alignItems: "center", fontSize: "30px"}}><img
-                                    src={fireIcon} alt='words'/>О сервисе</p></li>
-                            </Link>
-
-                            <Link to="/words" onClick={() => {
-                                setMenu(false)
-                            }}>
-                                <li><p style={{display: "flex", alignItems: "center", fontSize: "30px"}}><img
-                                    src={wordsIcon} alt='words'/>Таблица слов</p></li>
-                            </Link>
-
-                            <Link to="/progress" onClick={() => {
-                                setMenu(false)
-                            }}>
-                                <li><p style={{display: "flex", alignItems: "center", fontSize: "30px"}}><img
-                                    src={progressIcon} alt='words'/>Изученные слова</p></li>
-                            </Link>
-
-                            <Link to="/profile" onClick={() => {
-                                setMenu(false)
-                            }}>
-                                <li><p style={{display: "flex", alignItems: "center", fontSize: "30px"}}><img
-                                    src={profileIcon} alt='words' style={{height: "30px"}}/>Профиль</p></li>
-                            </Link>
-
-                        </ul>
-                        <Link to="/quest" onClick={() => {
-                            setMenu(false)
-                        }}>
-                            <button className='btn-mobile'>Начать практику</button>
-                        </Link>
-
-                        <div>
-                            <p onClick={handleExitProfile}>Выйти</p>
-                        </div>
-                    </div>
-                )}
-            </div>
-        </header>
-    );
+        </div>
+      </header>
+  );
 };
 
 export default Header;

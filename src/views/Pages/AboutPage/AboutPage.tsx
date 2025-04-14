@@ -1,29 +1,32 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 import dinoImage from '../../images/banners/6200_8_05.png'
-import AboutTextCom from "../../components/AboutPageCom/AboutTextCom/AboutTextCom.tsx";
-import AboutBtnCom from "../../components/AboutPageCom/AboutBtnCom/AboutBtnCom.tsx";
+
 import styles from './AboutPage.module.scss'
 
 const AboutPage: React.FC = () => {
 
-    return (
-        <div className={styles.container}>
+  return (
+      <div className={styles.container}>
 
-            <div className={styles.content}>
+        <div className={styles.content}>
 
-                {/*Desktop container*/}
-                <div className={styles.content_desk}>
-                    <img src={dinoImage} alt='dino' className={styles.content_image} style={{height: 450, width: 450}}/>
-                    <div>
-                        <AboutTextCom/>
-                        <AboutBtnCom/>
-                    </div>
-                </div>
+          <img src={dinoImage} alt='dino' className={styles.content_imagetop}/>
 
-            </div>
+          <div className={styles.content_title}>
+
+            <h1 className={styles.content_h1}>Добро пожаловать <br/>в Dinowords!</h1>
+            <p>Это сервис, который поможет вам прокачать ваш английский! <br/>💪 Самое главное в учебе — это ПРАКТИКА. <br/>Можно учить бесконечно теорию, но без практики вы не освоите английский. 📚</p>
+            <button className={styles.btn}><Link to="/quest">Начать</Link></button>
+
+          </div>
+
+          <img style={{width: "650px"}} src={dinoImage} alt='dino' className={styles.content_image}/>
 
         </div>
-    );
+
+      </div>
+  );
 };
 
 export default AboutPage;
