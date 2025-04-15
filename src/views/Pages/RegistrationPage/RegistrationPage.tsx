@@ -5,6 +5,7 @@ import {setMan, setUser, setWoman} from '../../../data/slices/userSlice';
 import {RootState} from "../../../data/store/store.ts";
 import axios from 'axios';
 import AgeComponents from "../../components/AgeComponents/AgeComponents.tsx";
+import {trackSignUp} from "../../../data/analytics/analytics.ts";
 
 import styles from './RegistrationPage.module.scss';
 
@@ -73,6 +74,8 @@ const RegisterPage: React.FC = () => {
 
           dispatch(setUser(newUser));
           window.location.href = "/profile"
+
+          trackSignUp('email')
         }
       } catch (error) {
         if (axios.isAxiosError(error)) {

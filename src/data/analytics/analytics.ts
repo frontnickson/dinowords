@@ -1,9 +1,12 @@
-import ReactGA from 'react-ga4'
+import { initialize, gtag } from 'react-ga4';
 
 export const initGA = () => {
-  ReactGA.initialize('G-8YJYGJTMSE');
+  initialize('G-8YJYGJTMSX'); // ← замени на свой Measurement ID
 };
 
-export const trackPageView = (path: string) => {
-  ReactGA.send({ hitType: 'pageview', page: path });
+export const trackSignUp = (method: string = 'email') => {
+  gtag('event', 'sign_up', {
+    method,
+  });
 };
+
