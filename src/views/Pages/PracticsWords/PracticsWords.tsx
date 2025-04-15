@@ -64,9 +64,13 @@ const PracticsWords: React.FC = () => {
             setText(e.target.value)
           }} placeholder='Введите текст...' value={text}></textarea>
 
-          <button onClick={() => {
-            handleGetRandomWords(level)
-          }} className='btn'><Link to="/successeful">Отправить</Link></button>
+          <Link to="/successeful">
+            <button onClick={() => {
+              handleGetRandomWords(level)
+            }} className='btn'>
+              Отправить
+            </button>
+          </Link>
 
         </div>
 
