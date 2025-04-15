@@ -10,13 +10,24 @@ const QuestionPage: React.FC = () => {
   const [practicsClass, setPracticsClass] = useState<boolean>(false)
   const [practicsImageClass, setPracticsImageClass] = useState<boolean>(false)
 
+  const [message, setMessage] = useState<boolean>(false)
+
+  const handleMessageError = () => {
+    if(!practicsClass && !practicsImageClass) {
+      setMessage(true)
+    }
+  }
+
   return (
       <div className={styles.container}>
 
         <div className={styles.content}>
 
-          <div>
+          <div style={{display: 'flex', flexDirection: 'column', gap: "10px"}}>
             <h1>Что хотите практиковать?</h1>
+            {message && (
+                <p style={{color: "red"}}>Вы не выбрали</p>
+            )}
           </div>
 
           <div className={styles.content_buttons}>
@@ -25,6 +36,7 @@ const QuestionPage: React.FC = () => {
               if (setPracticsImageClass) {
                 setPracticsClass(true);
                 setPracticsImageClass(false);
+                setMessage(false)
               }
             }}>Практика слов
             </button>
@@ -33,6 +45,7 @@ const QuestionPage: React.FC = () => {
               if (setPracticsClass) {
                 setPracticsClass(false);
                 setPracticsImageClass(true);
+                setMessage(false)
               }
             }}>Угадай картинку
             </button>
@@ -41,8 +54,8 @@ const QuestionPage: React.FC = () => {
 
           <div>
             <button className='btn'
-                    disabled={!practicsClass && !practicsImageClass}
                     onClick={() => {
+                      handleMessageError();
                       if (practicsClass) {
                         navigate('/level')
                         console.log("hello")

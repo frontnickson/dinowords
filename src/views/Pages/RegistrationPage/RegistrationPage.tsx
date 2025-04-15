@@ -1,42 +1,40 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import {setMan, setUser, setWoman} from '../../../data/slices/userSlice';
 import {RootState} from "../../../data/store/store.ts";
 import axios from 'axios';
 import AgeComponents from "../../components/AgeComponents/AgeComponents.tsx";
+import {initGA, trackSignUp} from "../../../data/analytics/analytics.ts";
+
 
 import styles from './RegistrationPage.module.scss';
-import {initGA, trackSignUp} from "../../../data/analytics/analytics.ts";
 
 const RegisterPage: React.FC = () => {
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // TOKEN
-  const token = useSelector((state:RootState) => state.user.token)
+  const token = useSelector((state: RootState) => state.user.token)
 
   // WRITE DATA ABOUT USER
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const age = useSelector((state: RootState) => state.user.age)
+  // TYPE FOR PASSWORD INPUT
+  const [typePassword] = useState('password');
 
+  // PARAMS USER
+  const age = useSelector((state: RootState) => state.user.age)
   const man = useSelector((state: RootState) => state.user.man)
   const woman = useSelector((state: RootState) => state.user.woman)
-  const [statusMan, setStatusMan] = useState<boolean>()
-  const [statusWoman, setStatusWoman] = useState<boolean>()
 
-  // MESSAGE IF USER ACTIVE ON SERVER
-  const [message, setMessage] = useState('');
+  const [manChecked, setManChecked] = useState<boolean>(false)
+  const [womanChecked, setWomanChecked] = useState<boolean>(false)
 
-  // MESSAGE IF USER NOT WRITE DATA
-  const [missingValue, setMissingValue] = useState(false);
-
-  // SHOW PASSWORD IF CHECKBOX ACTIVE
-  const [type, setType] = useState("password");
-
+  const [message, setMessage] = useState<boolean>(false)
 
   useEffect(() => {
     initGA();
@@ -45,11 +43,14 @@ const RegisterPage: React.FC = () => {
   // REGISTRATION ON THE SERVER
   const handleRegistration = async () => {
 
-    if (name === '' || password === '' || email === '') {
-      setMissingValue(true)
+    if(name === '' && email === '' && password === '') {
+
+      setMessage(true)
+
     } else {
 
-      // SEND FORM ON SERVER
+      setMessage(false)
+
       try {
         const res = await axios.post('http://localhost:5001/register', {
           email,
@@ -81,26 +82,20 @@ const RegisterPage: React.FC = () => {
             translate: false
           };
           dispatch(setUser(newUser));
-          window.location.href = "/profile";
+          console.log("успешно")
+          navigate('/profile')
 
           if(token){
             trackSignUp();
           }
+
         }
       } catch (error) {
         console.log(error);
         if (axios.isAxiosError(error)) {
-
           if (error.response) {
-            setMessage(error.response.data.message);
-            console.log(error.response.data.message);
-          } else {
-            setMessage('')
+            alert(error.response.data.message)
           }
-
-          setName('');
-          setEmail('');
-          setPassword('');
         }
       }
     }
@@ -111,127 +106,93 @@ const RegisterPage: React.FC = () => {
 
         <form className='form'>
 
-          <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
+          <h1>Создайте аккаунт</h1>
 
-            {/*TITLE*/}
+          {message && (
+              <p>Вы не заполнили данные</p>
+          )}
 
-            <h1>Регистрация</h1>
-
-            {missingValue && (<p>Вы не ввели данные</p>)}
-
-            <p style={{color: "red"}}>{message}</p>
-
-            {/*NAME*/}
-
+          <div>
             <input
+                className="input"
+                name="name"
                 type="text"
-                placeholder='Ваше имя..'
-                className='inputForm'
                 value={name}
-                onChange={(e) => {
-                  setName(e.target.value)
-                }}
+                placeholder="Имя"
+                onChange={(e) => setName(e.target.value)}
                 required
             />
+          </div>
+          <div>
+            <input
+                className="input"
+                name="email"
+                type={email}
+                value={email}
+                placeholder="Электронная почта"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+            />
+          </div>
+          <div>
+            <input
+                className="input"
+                name="password"
+                type={typePassword}
+                value={password}
+                placeholder="Пароль"
+                onChange={(e) => setPassword(e.target.value)}
+                required
+            />
+            <input style={{position: "absolute", right: "-150px", height: "20px"}} type="checkbox"/>
+          </div>
 
-            {/*AGE/MAN/WOMAN*/}
-            <div style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "1rem"
-            }}>
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
 
-              {/*SELECT AGE*/}
-              <AgeComponents/>
+            <AgeComponents/>
 
-              {/*SELECT MALE MAN*/}
-              <div style={{display: "flex", alignItems: "center", gap: '10px'}}>
-
-                <p>Муж.</p>
-
-                <input type="checkbox" checked={statusMan} onChange={() => {
-                  dispatch(setMan(true));
-                  setStatusMan(true)
-                  setStatusWoman(false)
-                }}
-                />
-
-              </div>
-
-              {/*SELECT MALE WOMAN*/}
-
-              <div style={{display: "flex", alignItems: "center", gap: '10px'}}>
-
-                <p>Жен.</p>
-
-                <input type="checkbox" checked={statusWoman} onChange={() => {
-                  dispatch(setWoman(true))
-                  setStatusWoman(true)
-                  setStatusMan(false)
-                }}
-                />
-
-              </div>
-
-            </div>
-
-            {/*EMAIL/PASSWORD*/}
-
-            <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
-
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <label htmlFor="man">Муж.</label>
               <input
-                  type="email"
-                  placeholder='Почта..'
-                  className='inputForm'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-              />
-
-              <div style={{display: 'flex', justifyContent: 'space-between'}}>
-
-                <p>Показать пароль</p>
-
-                <input type="checkbox" onChange={(e) => {
-                  if (e.target.checked) {
-                    setType("text")
-                  } else {
-                    setType("password")
-                  }
-                }}/>
-
-              </div>
-
-              <input
-                  type={type}
-                  placeholder='Пароль..'
-                  className='inputForm'
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
+                  style={{height: "25px"}}
+                  name="man"
+                  type="checkbox"
+                  onChange={() => {
+                    dispatch(setMan(true));
+                    setManChecked(true);
+                    setWomanChecked(false);
+                  }}
+                  checked={manChecked}
               />
             </div>
 
-            {/*BUTTON*/}
-
-            <div style={{margin: "auto", marginTop: '10px'}}>
-              <button className="btn" onClick={() => {
-                handleRegistration();
-              }}>
-                Регистрация
-              </button>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <label htmlFor="woman">Жен.</label>
+              <input
+                  style={{height: "25px"}}
+                  name="woman"
+                  type="checkbox"
+                  onChange={() => {
+                    dispatch(setWoman(true));
+                    setWomanChecked(true);
+                    setManChecked(false);
+                  }}
+                  checked={womanChecked}
+              />
             </div>
+          </div>
 
-            {/*LOGIN*/}
-            <div style={{display: 'flex', gap: "5px", alignItems: "center", justifyContent: 'center'}}>
-              <p>Есть профиль?</p>
-              <Link to="/login"><p style={{color: "#49AF08"}}>Войти</p></Link>
-            </div>
+          <button style={{margin: "auto"}} className="btn" type="submit" onClick={(e) => {handleRegistration(); e.preventDefault()}}>Регистрация</button>
+
+          <div style={{display: 'flex', gap: "5px", alignItems: "center", justifyContent: 'center'}}>
+
+            <p>Есть аккаунт?</p>
+            <Link to="/login"><p style={{color: "#49AF08"}}>Войти</p></Link>
 
           </div>
 
         </form>
+
 
       </div>
   )

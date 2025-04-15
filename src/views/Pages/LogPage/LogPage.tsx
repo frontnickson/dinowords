@@ -120,7 +120,7 @@ const LogPage: React.FC = () => {
 
           {/*LINK IF USER HAVE PROFILE*/}
           <div style={{display: 'flex', gap: "5px", alignItems: "center", justifyContent: 'center'}}>
-            <p>Нету профиля?</p>
+            <p>Нет аккаунта?</p>
             <Link to="/registration"><p style={{color: "#49AF08"}}>Зарегестрируйтесь</p></Link>
           </div>
 
