@@ -15,7 +15,7 @@ const PracticsWords: React.FC = () => {
   // USER LEVEL LOGIC FOR RANDOM WORDS /str-58/
   const [level] = useState(userLevel.easy ? 2 : userLevel.middle ? 4 : userLevel.hight ? 6 : 6)
 
-  // THIS WORD OBJECT - [ { id: 1, word: name, translate: имя, know: boolean }...
+  // THIS WORD OBJECT - { id: 1, word: name, translate: имя, know: boolean }...
   const words = useSelector((state: RootState) => state.words)
 
   const [randomWords, setRandomWords] = useState<WordState[]>([])

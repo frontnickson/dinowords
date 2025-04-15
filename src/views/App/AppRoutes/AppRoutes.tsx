@@ -20,18 +20,30 @@ const AppRoutes: React.FC = () => {
       <>
         <Routes>
           <Route index element={<AboutPage/>}/>
+          <Route path="*" element={<ErrorComponents/>}/>
           <Route path="/" element={<AboutPage/>}/>
-          <Route path="/about" element={<AboutPage/>}/>
           <Route path="/profile" element={<ProfilePages/>}/>
+          <Route path="/login" element={<LogPage/>}/>
+
+          <Route path="/about" element={<AboutPage/>}/>
+
+          {/*ALL WORDS*/}
           <Route path="/words" element={<WordsTable/>}/>
+
+          {/*PROGRESS PAGE*/}
           <Route path="/progress" element={<ProgressPages/>}/>
+
+          {/*QUESTION PAGE*/}
           <Route path="/quest" element={<QuestionPage/>}/>
+
+          {/*CHOOSE LEVEL FOR PRACTICS WORDS*/}
           <Route path="/level" element={<LevelPage/>}/>
           <Route path="/practics" element={<PracticsWords/>}/>
+
           <Route path="/successeful" element={<SuccessfulPage/>}/>
+
+          {/*RANDOM IMAGE PAGE*/}
           <Route path="/record" element={<RecordPage/>}/>
-          <Route path="*" element={<ErrorComponents/>}/>
-          <Route path="/login" element={<LogPage/>}/>
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/registration" element={<RegistrationPage/>}/>
         </Routes>

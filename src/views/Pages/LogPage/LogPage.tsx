@@ -21,8 +21,8 @@ const LogPage: React.FC = () => {
   // DON'T WRITE DATA
 
   const [message, setMessage] = useState('');
+  const [axiosError, setAxiosError] = useState(false);
   const [missingValue, setMissingValue] = useState(false);
-  console.log(missingValue)
 
   // FUNCTION TO SEND DATA,
   // ON THE SERVER
@@ -30,9 +30,13 @@ const LogPage: React.FC = () => {
   const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
+    setAxiosError(false)
+
     if (email === '' && password === '') {
       setMissingValue(true)
     } else {
+
+      setMissingValue(false)
 
       try {
 
@@ -50,6 +54,7 @@ const LogPage: React.FC = () => {
         if (axios.isAxiosError(error)) {
           if (error.response) {
             setMessage(error.response.data.message)
+            setAxiosError(true)
           }
           setEmail('')
           setPassword('')
@@ -65,9 +70,15 @@ const LogPage: React.FC = () => {
         <form className='form'>
 
           {/*TITLE*/}
-          <h1 style={{marginBottom: "15px"}}>Войти</h1>
+          <h1>Войти</h1>
 
-          <p>{message}</p>
+          {axiosError && (
+              <p>{message}</p>
+          )}
+
+          {missingValue && (
+              <p style={{color: "red"}}>Вы не ввели данные</p>
+          )}
 
           {/*EMAIL*/}
           <input
@@ -76,6 +87,7 @@ const LogPage: React.FC = () => {
               className='inputForm'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
           />
 
 
@@ -98,6 +110,7 @@ const LogPage: React.FC = () => {
               className='inputForm'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
           />
 
           {/*BUTTON TO SEND DATA*/}

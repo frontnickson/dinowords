@@ -17,10 +17,11 @@ const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const age = useSelector((state: RootState) => state.user.age)
+
   const man = useSelector((state: RootState) => state.user.man)
   const woman = useSelector((state: RootState) => state.user.woman)
-  const [manActive, setManActive] = useState<boolean>(false)
-  const [womanActive, setWomanActive] = useState<boolean>(false)
+  const [statusMan, setStatusMan] = useState<boolean>()
+  const [statusWoman, setStatusWoman] = useState<boolean>()
 
   // MESSAGE IF USER ACTIVE ON SERVER
   const [message, setMessage] = useState('');
@@ -34,7 +35,7 @@ const RegisterPage: React.FC = () => {
   // REGISTRATION ON THE SERVER
   const handleRegistration = async () => {
 
-    if (name === '' || password === '' || email === '' || !manActive || !womanActive) {
+    if (name === '' || password === '' || email === '') {
       setMissingValue(true)
     } else {
 
@@ -134,12 +135,11 @@ const RegisterPage: React.FC = () => {
 
                 <p>Муж.</p>
 
-                <input
-                    type="checkbox"
-                    onChange={() => {
-                      dispatch(setMan(true));
-                      setManActive(true)
-                    }}
+                <input type="checkbox" checked={statusMan} onChange={() => {
+                  dispatch(setMan(true));
+                  setStatusMan(true)
+                  setStatusWoman(false)
+                }}
                 />
 
               </div>
@@ -150,9 +150,10 @@ const RegisterPage: React.FC = () => {
 
                 <p>Жен.</p>
 
-                <input type="checkbox" onChange={() => {
+                <input type="checkbox" checked={statusWoman}  onChange={() => {
                   dispatch(setWoman(true))
-                  setWomanActive(true)
+                  setStatusWoman(true)
+                  setStatusMan(false)
                 }}
                 />
 
