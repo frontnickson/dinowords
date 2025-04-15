@@ -1,22 +1,26 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import {setMan, setUser, setWoman} from '../../../data/slices/userSlice';
 import {RootState} from "../../../data/store/store.ts";
 import axios from 'axios';
 import AgeComponents from "../../components/AgeComponents/AgeComponents.tsx";
-import {trackSignUp} from "../../../data/analytics/analytics.ts";
 
 import styles from './RegistrationPage.module.scss';
+import {initGA, trackSignUp} from "../../../data/analytics/analytics.ts";
 
 const RegisterPage: React.FC = () => {
 
   const dispatch = useDispatch()
 
+  // TOKEN
+  const token = useSelector((state:RootState) => state.user.token)
+
   // WRITE DATA ABOUT USER
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const age = useSelector((state: RootState) => state.user.age)
 
   const man = useSelector((state: RootState) => state.user.man)
@@ -32,6 +36,11 @@ const RegisterPage: React.FC = () => {
 
   // SHOW PASSWORD IF CHECKBOX ACTIVE
   const [type, setType] = useState("password");
+
+
+  useEffect(() => {
+    initGA();
+  }, []);
 
   // REGISTRATION ON THE SERVER
   const handleRegistration = async () => {
@@ -71,17 +80,20 @@ const RegisterPage: React.FC = () => {
             stressTime: 0,
             translate: false
           };
-
           dispatch(setUser(newUser));
-          window.location.href = "/profile"
+          window.location.href = "/profile";
 
-          trackSignUp('email')
+          if(token){
+            trackSignUp();
+          }
         }
       } catch (error) {
+        console.log(error);
         if (axios.isAxiosError(error)) {
 
           if (error.response) {
             setMessage(error.response.data.message);
+            console.log(error.response.data.message);
           } else {
             setMessage('')
           }
@@ -153,7 +165,7 @@ const RegisterPage: React.FC = () => {
 
                 <p>Жен.</p>
 
-                <input type="checkbox" checked={statusWoman}  onChange={() => {
+                <input type="checkbox" checked={statusWoman} onChange={() => {
                   dispatch(setWoman(true))
                   setStatusWoman(true)
                   setStatusMan(false)
