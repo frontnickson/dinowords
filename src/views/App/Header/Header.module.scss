@@ -2,6 +2,7 @@
   max-width: var(--display-width);
   margin: 0 auto;
   width: 100%;
+  padding: 0px 15px;
 }
 
 .content {
@@ -19,6 +20,10 @@
   &_con {
     display: flex;
     align-items: center;
+
+    &Burger {
+      display: none;
+    }
 
     &Button {
       background-color: #49AF08;
@@ -63,10 +68,6 @@
     }
   }
 
-  &_burger {
-    display: none;
-  }
-
 }
 
 :global(a.active) {
@@ -105,31 +106,21 @@
   }
 }
 
-@media (max-width: 960px) {
+@media (max-width: 930px) {
   .content {
-    padding: 15px;
-
-    &_logo{
-      height: 40px;
-    }
-
     &_con {
 
-      &Button {
+      &Nav{
         display: none;
       }
 
-      &List {
+      &Burger{
+        display: block;
+      }
+
+      &Button{
         display: none;
       }
-    }
-
-    &_burger {
-      display: flex;
-    }
-
-    &_menu {
-      background-color: #49AF08;
     }
   }
 }

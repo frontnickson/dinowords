@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
             <li><h3>Информация:</h3></li>
             <li><a href="https://www.figma.com/proto/FnmlycalLYkAH87adFHKgl/Putov_design_1000words?page-id=3%3A2&node-id=3-281&p=f&t=VoeubmpQtJBK0ZUM-0&scaling=min-zoom&content-scaling=fixed">Презентация</a></li>
             <Link to="/about">
-              <li>Об сервисе</li>
+              <li>О сервисе</li>
             </Link>
             <li><a href="https://github.com/frontnickson">Автор</a></li>
           </ul>

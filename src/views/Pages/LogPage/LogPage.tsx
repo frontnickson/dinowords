@@ -1,104 +1,120 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {setUser} from '../../../data/slices/userSlice';
+import axios from 'axios';
 
 import styles from './LogPage.module.scss';
 
 const LogPage: React.FC = () => {
 
-    const dispatch = useDispatch()
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [type, setType] = useState("password");
+  const dispatch = useDispatch()
 
-    // if missing value in form
-    const [missingValue, setMissingValue] = useState(false);
+  // GET DATA ABOUT USER,
+  // AND SEND DATA ON SERVER
 
-    const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [type, setType] = useState("password");
 
-        if (email === '' && password === '') {
-            setMissingValue(true)
-        } else {
+  // SHOW MESSAGE IF USER,
+  // DON'T WRITE DATA
 
-            try {
-                const response = await axios.post('http://localhost:5001/login', {email, password})
+  const [message, setMessage] = useState('');
+  const [missingValue, setMissingValue] = useState(false);
+  console.log(missingValue)
 
-                if (response.data.user) {
-                    dispatch(setUser(response.data.user))
-                    window.location.href = "/profile"
-                }
+  // FUNCTION TO SEND DATA,
+  // ON THE SERVER
 
-            } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    setEmail('')
-                    setPassword('')
-                    console.error('Login error:', error.response?.data?.message || 'Unknown error')
-                }
-            }
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+
+    if (email === '' && password === '') {
+      setMissingValue(true)
+    } else {
+
+      try {
+
+        // THIS WE NEED EMAIL AND PASSWORD,
+        // TO SEND DATA ON THE SERVER
+        const response = await axios.post('http://localhost:5001/login', {email, password})
+
+
+        if (response.data.user) {
+          dispatch(setUser(response.data.user))
+          window.location.href = "/profile"
         }
 
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (error.response) {
+            setMessage(error.response.data.message)
+          }
+          setEmail('')
+          setPassword('')
+        }
+      }
     }
 
-    return (
-        <div className={styles.container}>
+  }
 
-            <form className='form'>
+  return (
+      <div className={styles.container}>
 
-                <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
+        <form className='form'>
 
-                    {/*TITLE*/}
-                    <h1 style={{marginBottom: "15px"}}>Войти</h1>
-                    {missingValue && (
-                        <p style={{marginBottom: "15px", color: "red"}}>Вы не ввели данные</p>
-                    )}
+          {/*TITLE*/}
+          <h1 style={{marginBottom: "15px"}}>Войти</h1>
 
-                    {/*EMAIL*/}
-                    <input
-                        type="email"
-                        placeholder='Почта..'
-                        className='inputForm'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+          <p>{message}</p>
+
+          {/*EMAIL*/}
+          <input
+              type="email"
+              placeholder='Почта..'
+              className='inputForm'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+          />
 
 
-                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                        <p>Показать пароль</p>
-                        <input type="checkbox" onChange={(e) => {
-                            if (e.target.checked) {
-                                setType("text")
-                            } else {
-                                setType("password")
-                            }
-                        }}/>
-                    </div>
+          {/*SHOW PASSWORD*/}
+          <div style={{display: 'flex', justifyContent: 'space-between'}}>
+            <p>Показать пароль</p>
+            <input type="checkbox" onChange={(e) => {
+              if (e.target.checked) {
+                setType("text")
+              } else {
+                setType("password")
+              }
+            }}/>
+          </div>
 
-                    {/*PASSWORD*/}
-                    <input
-                        type={type}
-                        placeholder='Пароль..'
-                        className='inputForm'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+          {/*PASSWORD*/}
+          <input
+              type={type}
+              placeholder='Пароль..'
+              className='inputForm'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+          />
 
-                    <div className={styles.content_button}>
-                        <button type="button" className='btn' onClick={handleLogin}>Войти</button>
-                    </div>
+          {/*BUTTON TO SEND DATA*/}
+          <div>
+            <button type="button" className={styles.btn} onClick={handleLogin}>Войти</button>
+          </div>
 
-                    <div>
-                        <p>Нету профиля? <Link to="/registration">Зарегестрируйтесь!</Link></p>
-                    </div>
+          {/*LINK IF USER HAVE PROFILE*/}
+          <div style={{display: 'flex', gap: "5px", alignItems: "center", justifyContent: 'center'}}>
+            <p>Нету профиля?</p>
+            <Link to="/registration"><p style={{color: "#49AF08"}}>Зарегестрируйтесь</p></Link>
+          </div>
 
-                </div>
+        </form>
 
-            </form>
-
-        </div>
-    );
+      </div>
+  );
 }
 
 export default LogPage;

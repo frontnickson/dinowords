@@ -32,7 +32,7 @@ const MobileMenuComponents: React.FC<AppProps> = ({menu, closeMenu}) => {
                 <Link to="/words" onClick={() => closeMenu()}>Таблица слов</Link>
                 <Link to="/progress" onClick={() => closeMenu()}>Изученные слова</Link>
                 <Link to="/profile" onClick={() => closeMenu()}>Профиль</Link>
-                <button className={styles.container_listBtn}>Начать практику</button>
+                <Link to="/quest"><button className={styles.container_listBtn} onClick={() => closeMenu()}>Начать практику</button></Link>
                 <Link to="/about"><p style={{fontSize: "15px"}} onClick={() => {
                   dispatch(removeUser());
                   setOptionMenu(false);

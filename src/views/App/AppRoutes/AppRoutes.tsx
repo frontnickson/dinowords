@@ -15,25 +15,28 @@ import RecordPage from '../../Pages/RecordPage/RecordPage';
 
 const AppRoutes: React.FC = () => {
 
-    return (
+
+  return (
+      <>
         <Routes>
-            <Route index element={<AboutPage/>}/>
-            <Route path="/" element={<AboutPage/>}/>
-            <Route path="/about" element={<AboutPage/>}/>
-            <Route path="/profile" element={<ProfilePages/>}/>
-            <Route path="/words" element={<WordsTable/>}/>
-            <Route path="/progress" element={<ProgressPages/>}/>
-            <Route path="/quest" element={<QuestionPage/>}/>
-            <Route path="/level" element={<LevelPage/>}/>
-            <Route path="/practics" element={<PracticsWords/>}/>
-            <Route path="/successeful" element={<SuccessfulPage/>}/>
-            <Route path="/record" element={<RecordPage/>}/>
-            <Route path="*" element={<ErrorComponents/>}/>
-            <Route path="/login" element={<LogPage/>}/>
-            <Route path="/about" element={<AboutPage/>}/>
-            <Route path="/registration" element={<RegistrationPage/>}/>
+          <Route index element={<AboutPage/>}/>
+          <Route path="/" element={<AboutPage/>}/>
+          <Route path="/about" element={<AboutPage/>}/>
+          <Route path="/profile" element={<ProfilePages/>}/>
+          <Route path="/words" element={<WordsTable/>}/>
+          <Route path="/progress" element={<ProgressPages/>}/>
+          <Route path="/quest" element={<QuestionPage/>}/>
+          <Route path="/level" element={<LevelPage/>}/>
+          <Route path="/practics" element={<PracticsWords/>}/>
+          <Route path="/successeful" element={<SuccessfulPage/>}/>
+          <Route path="/record" element={<RecordPage/>}/>
+          <Route path="*" element={<ErrorComponents/>}/>
+          <Route path="/login" element={<LogPage/>}/>
+          <Route path="/about" element={<AboutPage/>}/>
+          <Route path="/registration" element={<RegistrationPage/>}/>
         </Routes>
-    );
+      </>
+  );
 };
 
 export default AppRoutes;

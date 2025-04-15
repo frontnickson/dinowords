@@ -11,101 +11,118 @@ import styles from './GetRandomImage.module.scss'
 
 const GetRandomImage: React.FC = () => {
 
-    const dispatch = useDispatch();
-    const studiedWords = useSelector((state: RootState) => state.user.studiedImage);
-    const [makeLoader, setMakeLoade] = useState(false)
-    const [randomWords, setRandomWords] = useState<WordState[] | undefined>()
-    const [randomImage, setRandomImage] = useState<number>(0)
+  const dispatch = useDispatch();
 
-    const handleSetTimeOutImage = () => {
-        setMakeLoade(true)
-        setTimeout(() => {
-            setMakeLoade(false)
-            handleGetRandomImage()
-        }, 500)
+  // LOCAL WORDS
+  const studiedWords = useSelector((state: RootState) => state.user.studiedImage);
+  const [makeLoader, setMakeLoader] = useState(false)
+  const [randomWords, setRandomWords] = useState<WordState[] | undefined>()
+  const [randomImage, setRandomImage] = useState<number>(0)
+
+  // IF USER CLICK NOT CURRENT WORD,
+  // SHOW CURRENT WORD AND SHOW NEEXT,
+  // RANDOM WORDS
+
+  const handleSetTimeOutImage = () => {
+    setMakeLoader(true)
+    setTimeout(() => {
+      setMakeLoader(false)
+      handleGetRandomImage()
+    }, 500)
+  }
+
+  // TO GET 3 RANDOM WORDS
+
+  const handleGetRandomImage = () => {
+    const wordsList = []
+
+    for (let i = 0; i < 3; i++) {
+      const randomId = Math.floor(Math.random() * words.length)
+      const filterWord = words[randomId]
+
+      if (filterWord) {
+        wordsList.push(filterWord)
+      }
     }
 
-    const handleGetRandomImage = () => {
-        const wordsList = []
+    const sortList = wordsList.sort(() => Math.random() - 0.5)
+    const randomImage = Math.floor(Math.random() * 3)
+    setRandomImage(randomImage)
+    setRandomWords(sortList)
+  }
 
-        for (let i = 0; i < 3; i++) {
-            const randomId = Math.floor(Math.random() * words.length)
-            const filterWord = words[randomId]
+  const handleClickImage = (e: React.MouseEvent<HTMLLIElement>) => {
+    const target = e.target as HTMLLIElement;
+    const targetText = target.innerText;
 
-            if (filterWord) {
-                wordsList.push(filterWord)
-            }
+    const currectElement = randomWords && randomWords[randomImage]
+
+    if (currectElement) {
+      setRandomWords((prev) => prev && prev.map(word => {
+        if (targetText === currectElement.word) {
+          if (word.word === targetText) {
+            return {...word, know: true}
+          }
         }
-
-        const sortList = wordsList.sort(() => Math.random() - 0.5)
-        const randomImage = Math.floor(Math.random() * 3)
-        setRandomImage(randomImage)
-        setRandomWords(sortList)
+        return word;
+      }))
     }
 
-    const handleClickImage = (e: React.MouseEvent<HTMLLIElement>) => {
-        const target = e.target as HTMLLIElement;
-        const targetText = target.innerText;
-
-        const currectElement = randomWords && randomWords[randomImage]
-
-        if (currectElement) {
-            setRandomWords((prev) => prev && prev.map(word => {
-                if (targetText === currectElement.word) {
-                    if (word.word === targetText) {
-                        return {...word, know: true}
-                    }
-                }
-                return word;
-            }))
-        }
-
-        if (targetText === currectElement?.word) {
-            dispatch(pushNewImage(currectElement))
-        }
-
+    if (targetText === currectElement?.word) {
+      dispatch(pushNewImage(currectElement))
+    } else {
+      alert(`Правильное слово: ${currectElement?.word}, Перевод: ${currectElement?.translate}`);
+      handleSetTimeOutImage()
     }
 
-    useEffect(() => {
-        setMakeLoade(true)
-        setTimeout(() => {
-            setMakeLoade(false)
-            handleGetRandomImage()
-        }, 500)
-    }, [])
+  }
 
-    return (
-        <div>
-            {makeLoader ? <Loader/> :
-                (
-                    <div className={styles.random}>
+  useEffect(() => {
+    // START WORK LOADER
+    setMakeLoader(true)
 
-                        <p>Вы узнали: {studiedWords.length} картинок</p>
-                        <img src={randomWords ? randomWords[randomImage].imageLink : imageStart} alt='image'
-                             className={styles.random_image}/>
+    // AFTER 0.5s START GET RANDOM IMAGE FUNCTION
+    setTimeout(() => {
+      setMakeLoader(false)
+      handleGetRandomImage()
+    }, 500)
 
-                        <div className={styles.random_words}>
+  }, [])
 
-                            {randomWords && randomWords.map(item => (
-                                <ul key={item.id}>
-                                    <li className={item.know ? styles.random_active : styles.random_disabled}
-                                        onClick={(e) => {
-                                            handleClickImage(e)
-                                        }}>{item.word}</li>
-                                </ul>
-                            ))}
+  return (
+      <div>
+        {makeLoader ?
+            <Loader/> :
+            (
+                <div className={styles.random}>
 
-                        </div>
+                  <p>Вы узнали: {studiedWords.length} картинок</p>
+                  <img src={randomWords ? randomWords[randomImage].imageLink : imageStart} alt='image'
+                       className={styles.random_image}/>
 
-                        <button onClick={() => {
-                            handleGetRandomImage();
-                            handleSetTimeOutImage()
-                        }} className='btn'>Дальше
-                        </button>
-                    </div>
-                )}
-        </div>
-    );
+                  <div className={styles.random_words}>
+
+                    {randomWords && randomWords.map(item => (
+                        <ul key={item.id}>
+                          <li className={item.know ? styles.random_active : styles.random_disabled}
+                              onClick={(e) => {
+                                handleClickImage(e)
+                              }}>{item.word}</li>
+                        </ul>
+                    ))}
+
+                  </div>
+
+                  <button onClick={() => {
+                    handleGetRandomImage();
+                    handleSetTimeOutImage()
+                    window.location.href="/successeful"
+                  }} className='btn'>Дальше
+                  </button>
+                </div>
+            )}
+      </div>
+  );
 };
 
 export default GetRandomImage;

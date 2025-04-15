@@ -5,8 +5,27 @@
   justify-content: center;
 }
 
-.content{
+.btn {
+  background-color: #49AF08;
+  width: 222px;
+  height: 65px;
+  border-radius: 17px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
 
+.btn:hover {
+  transition: 0.3s;
+  background-color: #36780d;
+  cursor: pointer;
+}
+
+.btn:active {
+  transition: 0.3s;
+  background-color: #49AF08;
+  cursor: pointer;
+  border-bottom: 1px solid black;
 }
 
 

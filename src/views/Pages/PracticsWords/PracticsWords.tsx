@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Link} from "react-router-dom";
 import {RootState} from '../../../data/store/store';
-import ErrorComponents from '../../components/ErrorComponents/ErrorComponents';
 import GetRandomWords from '../../components/GetRandomWords/GetRandomWords';
 import {WordState} from '../../../data/slices/userSlice';
 
@@ -10,67 +9,69 @@ import styles from './PracticsWords.module.scss'
 
 const PracticsWords: React.FC = () => {
 
-    const token = useSelector((state: RootState) => state.user.token)
-    const userLevel = useSelector((state: RootState) => state.user.level)   // userLevel - { easy: false, middle: false, higth: false }
-    const words = useSelector((state: RootState) => state.words) // words - [ { id: 1, word: name, translate: имя, know: boolean }... ]
-    const [level] = useState(userLevel.easy ? 2 : userLevel.middle ? 4 : userLevel.hight ? 6 : 6)
-    const [randomWords, setRandomWords] = useState<WordState[]>([])
-    const [text, setText] = useState('')
+  // USER LEVEL
+  const userLevel = useSelector((state: RootState) => state.user.level)   // userLevel - { easy: false, middle: false, higth: false }
 
-    // Function to get random
-    const handleGetRandomWords = (n: number) => {
+  // USER LEVEL LOGIC FOR RANDOM WORDS /str-58/
+  const [level] = useState(userLevel.easy ? 2 : userLevel.middle ? 4 : userLevel.hight ? 6 : 6)
 
-        if (!words || words.words.length === 0) {
-            console.error('Words not available');
-            return;
-        }
+  // THIS WORD OBJECT - [ { id: 1, word: name, translate: имя, know: boolean }...
+  const words = useSelector((state: RootState) => state.words)
 
-        const wordsList = []
+  const [randomWords, setRandomWords] = useState<WordState[]>([])
 
-        for (let i: number = 0; i < n; i++) {
-            const random: number = Math.floor(Math.random() * words.words.length)
-            const randomWords: WordState = words.words[random]
-            wordsList.push(randomWords)
-        }
+  const [text, setText] = useState('')
 
-        setRandomWords(wordsList)
-        setText('')
+  // GET RANDOM WORDS AND PUSH, setRandomWords /str-20/
+  const handleGetRandomWords = (n: number) => {
+
+    if (!words || words.words.length === 0) {
+      console.error('Words not available');
+      return;
     }
 
-    useEffect(() => {
-        handleGetRandomWords(level)
-    }, [level])
+    const wordsList = []
 
-    return (
-        <div className={styles.container}>
+    for (let i: number = 0; i < n; i++) {
+      const random: number = Math.floor(Math.random() * words.words.length)
+      const randomWords: WordState = words.words[random]
+      wordsList.push(randomWords)
+    }
 
-            {token ? (
-                <div className={styles.content}>
+    setRandomWords(wordsList)
+    setText('')
+  }
 
-                    <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
-                        <h1>Составьте предложение</h1>
-                        <p>Придумайте свое уникальное предложение и запишите его!</p>
-                    </div>
+  useEffect(() => {
+    handleGetRandomWords(level)
+  }, [level])
 
-                    <GetRandomWords randomWords={randomWords} text={text}/>
+  return (
+      <div className={styles.container}>
 
-                    {text === "" ? <p style={{marginBottom: "20px"}}>Введите текст</p> : ""}
+        <div className={styles.content}>
 
-                    <textarea className={styles.content_area} onChange={(e) => {
-                        setText(e.target.value)
-                    }} placeholder='Введите текст...' value={text}></textarea>
+          <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
+            <h1>Составьте предложение</h1>
+            <p>Придумайте свое уникальное предложение и запишите его!</p>
+          </div>
 
-                    <button onClick={() => {
-                        handleGetRandomWords(level)
-                    }} className='btn'><Link to="/successeful">Отправить</Link></button>
+          <GetRandomWords randomWords={randomWords} text={text}/>
 
-                </div>
-            ) : (
-                <ErrorComponents/>
-            )}
+          {text === "" ? <p style={{marginBottom: "20px"}}>Введите текст</p> : ""}
+
+          <textarea className={styles.content_area} onChange={(e) => {
+            setText(e.target.value)
+          }} placeholder='Введите текст...' value={text}></textarea>
+
+          <button onClick={() => {
+            handleGetRandomWords(level)
+          }} className='btn'><Link to="/successeful">Отправить</Link></button>
 
         </div>
-    );
+
+      </div>
+  );
 }
 
 export default PracticsWords;
