@@ -8,10 +8,10 @@ const AgeComponents: React.FC = () => {
 
     return (
         <div style={{display: "flex", gap: "10px"}}>
-            <p>Возраст: </p>
             <select onChange={(e) => {
                 dispatch(setAge(Number(e.target.value)))
             }}>
+                <option>Возраст</option>
                 <option value="16">16</option>
                 <option value="17">17</option>
                 <option value="18">18</option>

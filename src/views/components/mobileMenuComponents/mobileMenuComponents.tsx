@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {removeUser} from "../../../data/slices/userSlice.ts";
 
 import closeImage from '../../images/close.svg'
 
 
 import styles from './MobileMenuComponents.module.scss'
+import {RootState} from "../../../data/store/store.ts";
 
 type AppProps = {
   menu: boolean;
@@ -16,6 +17,8 @@ type AppProps = {
 const MobileMenuComponents: React.FC<AppProps> = ({menu, closeMenu}) => {
 
   const dispatch = useDispatch()
+  const token = useSelector((state: RootState) => state.user.token)
+
   const [optionMenu, setOptionMenu] = useState<boolean>(menu)
 
   useEffect(() => {
@@ -33,10 +36,12 @@ const MobileMenuComponents: React.FC<AppProps> = ({menu, closeMenu}) => {
                 <Link to="/progress" onClick={() => closeMenu()}>Изученные слова</Link>
                 <Link to="/profile" onClick={() => closeMenu()}>Профиль</Link>
                 <Link to="/quest"><button className={styles.container_listBtn} onClick={() => closeMenu()}>Начать практику</button></Link>
-                <Link to="/about"><p style={{fontSize: "15px"}} onClick={() => {
-                  dispatch(removeUser());
-                  setOptionMenu(false);
-                }}><u>Выйти</u></p></Link>
+                {token && (
+                    <Link to="/about"><p style={{fontSize: "15px"}} onClick={() => {
+                      dispatch(removeUser());
+                      setOptionMenu(false);
+                    }}><u>Выйти</u></p></Link>
+                )}
               </li>
             </ul>
         )}

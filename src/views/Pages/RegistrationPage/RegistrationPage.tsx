@@ -24,7 +24,7 @@ const RegisterPage: React.FC = () => {
   const [password, setPassword] = useState('');
 
   // TYPE FOR PASSWORD INPUT
-  const [typePassword] = useState('password');
+  const [typePassword, setTypePassword] = useState('password');
 
   // PARAMS USER
   const age = useSelector((state: RootState) => state.user.age)
@@ -109,7 +109,7 @@ const RegisterPage: React.FC = () => {
           <h1>Создайте аккаунт</h1>
 
           {message && (
-              <p>Вы не заполнили данные</p>
+              <p style={{color: "red"}}>Вы не ввели данные</p>
           )}
 
           <div>
@@ -123,6 +123,7 @@ const RegisterPage: React.FC = () => {
                 required
             />
           </div>
+
           <div>
             <input
                 className="input"
@@ -134,6 +135,17 @@ const RegisterPage: React.FC = () => {
                 required
             />
           </div>
+
+          <div style={{display: 'flex', justifyContent: 'space-between'}}>
+            <p>Показать пароль</p>
+            <input style={{width: "40px"}} type="checkbox" onChange={() => {
+              if(typePassword === 'password') {
+                setTypePassword('text');
+              } else {
+                setTypePassword('password');
+            }}}/>
+          </div>
+
           <div>
             <input
                 className="input"

@@ -84,7 +84,7 @@ const LogPage: React.FC = () => {
           <input
               type="email"
               placeholder='Почта..'
-              className='inputForm'
+              className='input'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -94,7 +94,7 @@ const LogPage: React.FC = () => {
           {/*SHOW PASSWORD*/}
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <p>Показать пароль</p>
-            <input type="checkbox" onChange={(e) => {
+            <input style={{width: "40px"}} type="checkbox" onChange={(e) => {
               if (e.target.checked) {
                 setType("text")
               } else {
@@ -107,7 +107,7 @@ const LogPage: React.FC = () => {
           <input
               type={type}
               placeholder='Пароль..'
-              className='inputForm'
+              className='input'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -119,7 +119,7 @@ const LogPage: React.FC = () => {
           </div>
 
           {/*LINK IF USER HAVE PROFILE*/}
-          <div style={{display: 'flex', gap: "5px", alignItems: "center", justifyContent: 'center'}}>
+          <div style={{display: 'flex', flexWrap: "wrap", gap: "5px", alignItems: "center", justifyContent: 'center'}}>
             <p>Нет аккаунта?</p>
             <Link to="/registration"><p style={{color: "#49AF08"}}>Зарегестрируйтесь</p></Link>
           </div>
