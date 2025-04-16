@@ -52,7 +52,7 @@ const RegisterPage: React.FC = () => {
       setMessage(false)
 
       try {
-        const res = await axios.post('http://localhost:5001/register', {
+        const res = await axios.post('https://dinowords.ru/api/register', {
           email,
           password,
           name,

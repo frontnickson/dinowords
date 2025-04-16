@@ -34,7 +34,7 @@ const ProfilePages: React.FC = () => {
 
     const handlePushDataUser = async () => {
         try {
-            const response = await axios.put('http://localhost:5001/user/full', user, {
+            const response = await axios.put('https://dinowords.ru/api/user/full', user, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`

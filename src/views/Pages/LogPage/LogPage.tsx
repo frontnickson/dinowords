@@ -42,7 +42,7 @@ const LogPage: React.FC = () => {
 
         // THIS WE NEED EMAIL AND PASSWORD,
         // TO SEND DATA ON THE SERVER
-        const response = await axios.post('http://localhost:5001/login', {email, password})
+        const response = await axios.post('https://dinowords.ru/api/login', {email, password})
 
 
         if (response.data.user) {
