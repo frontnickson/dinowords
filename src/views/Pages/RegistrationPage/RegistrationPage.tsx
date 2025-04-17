@@ -65,7 +65,7 @@ const RegisterPage: React.FC = () => {
     const currectEmail = includesValue.some(item => email.includes(item));
 
     if (!currectEmail) {
-      setMessage('Введите коректную почту')
+      setMessage('Введите корректную почту')
       return;
     }
 
@@ -209,7 +209,7 @@ const RegisterPage: React.FC = () => {
 
             <AgeComponents/>
 
-            <div style={{display: 'flex', alignItems: 'center'}}>
+            <div style={{display: 'flex', gap: "5px", alignItems: 'center'}}>
               <label htmlFor="man">Муж.</label>
               <input
                   style={{height: "25px"}}
@@ -224,7 +224,7 @@ const RegisterPage: React.FC = () => {
               />
             </div>
 
-            <div style={{display: 'flex', alignItems: 'center'}}>
+            <div style={{display: 'flex', gap: "5px", alignItems: 'center'}}>
               <label htmlFor="woman">Жен.</label>
               <input
                   style={{height: "25px"}}
