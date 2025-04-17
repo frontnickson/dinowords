@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
-import {setMan, setUser, setWoman} from '../../../data/slices/userSlice';
+import {setAge, setMan, setUser, setWoman} from '../../../data/slices/userSlice';
 import {RootState} from "../../../data/store/store.ts";
 import axios from 'axios';
 import AgeComponents from "../../components/AgeComponents/AgeComponents.tsx";
 import {initGA, trackSignUp} from "../../../data/analytics/analytics.ts";
-
 
 import styles from './RegistrationPage.module.scss';
 
@@ -34,72 +33,118 @@ const RegisterPage: React.FC = () => {
   const [manChecked, setManChecked] = useState<boolean>(false)
   const [womanChecked, setWomanChecked] = useState<boolean>(false)
 
-  const [message, setMessage] = useState<boolean>(false)
+  const [message, setMessage] = useState<string>('')
 
   useEffect(() => {
     initGA();
   }, []);
 
+
   // REGISTRATION ON THE SERVER
-  const handleRegistration = async () => {
+  const handleCheckRegistration = () => {
 
-    if(name === '' && email === '' && password === '') {
+    if (name === '' || email === '' || password === '') {
+      setMessage('Введите данные')
+      return;
+    }
 
-      setMessage(true)
+    const includesValue = [
+      '@mail.ru',
+      '@gmail.com',
+      '@yandex.ru',
+      '@yahoo.com',
+      '@outlook.com',
+      '@icloud.com',
+      '@bk.ru',
+      '@list.ru',
+      '@inbox.ru',
+      '@rambler.ru',
+      '@hotmail.com'
+    ];
 
-    } else {
+    const currectEmail = includesValue.some(item => email.includes(item));
 
-      setMessage(false)
+    if (!currectEmail) {
+      setMessage('Введите коректную почту')
+      return;
+    }
 
-      try {
-        const res = await axios.post('https://dinowords.ru/api/register', {
-          email,
-          password,
-          name,
-          age,
-          man,
-          woman
-        });
+    if(password.length < 6){
+      setMessage('Слишком короткий пароль')
+      return;
+    }
 
-        if (res.data.token) {
-          const newUser = {
-            email: email,
-            token: res.data.token,
-            id: res.data.user.id,
-            name: name,
-            age: age,
-            man: man,
-            woman: woman,
-            image: "",
-            studiedWords: [],
-            studiedImage: [],
-            level: {
-              easy: false,
-              middle: false,
-              hight: false
-            },
-            stressTime: 0,
-            translate: false
-          };
-          dispatch(setUser(newUser));
-          console.log("успешно")
-          navigate('/profile')
+    if (!manChecked && !womanChecked) {
+      setMessage('Выбирите пол')
+      return;
+    }
 
-          if(token){
-            trackSignUp();
-          }
+    if (age === 0) {
+      setMessage('Выбирите возраст')
+    }
 
+    if(age > 0 && email !== '' && name !== '' && email !== '' && (manChecked || womanChecked)) {
+      handleNewUser()
+    }
+
+
+  };
+
+  const handleNewUser = async () => {
+    try {
+      const res = await axios.post('https://dinowords.ru/api/register', {
+        email,
+        password,
+        name,
+        age,
+        man,
+        woman
+      });
+
+      if (res.data.token) {
+        const newUser = {
+          email: email,
+          token: res.data.token,
+          id: res.data.user.id,
+          name: name,
+          age: age,
+          man: man,
+          woman: woman,
+          image: "",
+          studiedWords: [],
+          studiedImage: [],
+          level: {
+            easy: false,
+            middle: false,
+            hight: false
+          },
+          stressTime: 0,
+          translate: false
+        };
+        dispatch(setUser(newUser));
+        console.log("успешно")
+        navigate('/profile')
+
+        if (token) {
+          trackSignUp();
         }
-      } catch (error) {
-        console.log(error);
-        if (axios.isAxiosError(error)) {
-          if (error.response) {
-            alert(error.response.data.message)
-          }
+
+      }
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          alert(error.response.data.message);
+          setEmail('');
+          setName('');
+          setPassword('');
+          dispatch(setAge(0))
+          setManChecked(false);
+          setWomanChecked(false);
         }
       }
     }
-  };
+  }
 
   return (
       <div className={styles.container}>
@@ -108,9 +153,9 @@ const RegisterPage: React.FC = () => {
 
           <h1>Создайте аккаунт</h1>
 
-          {message && (
-              <p style={{color: "red"}}>Вы не ввели данные</p>
-          )}
+          <div>
+            <p style={{color: "red"}}>{message}</p>
+          </div>
 
           <div>
             <input
@@ -139,11 +184,12 @@ const RegisterPage: React.FC = () => {
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <p>Показать пароль</p>
             <input style={{width: "40px"}} type="checkbox" onChange={() => {
-              if(typePassword === 'password') {
+              if (typePassword === 'password') {
                 setTypePassword('text');
               } else {
                 setTypePassword('password');
-            }}}/>
+              }
+            }}/>
           </div>
 
           <div>
@@ -194,7 +240,11 @@ const RegisterPage: React.FC = () => {
             </div>
           </div>
 
-          <button style={{margin: "auto"}} className="btn" type="submit" onClick={(e) => {handleRegistration(); e.preventDefault()}}>Регистрация</button>
+          <button style={{margin: "auto"}} className="btn" type="submit" onClick={(e) => {
+            handleCheckRegistration()
+            e.preventDefault()
+          }}>Регистрация
+          </button>
 
           <div style={{display: 'flex', gap: "5px", alignItems: "center", justifyContent: 'center'}}>
 

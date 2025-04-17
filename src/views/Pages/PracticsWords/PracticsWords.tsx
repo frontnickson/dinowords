@@ -1,28 +1,36 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {Link} from "react-router-dom";
 import {RootState} from '../../../data/store/store';
 import GetRandomWords from '../../components/GetRandomWords/GetRandomWords';
 import {WordState} from '../../../data/slices/userSlice';
+import {useNavigate} from "react-router-dom";
+
+
 
 import styles from './PracticsWords.module.scss'
 
+
 const PracticsWords: React.FC = () => {
 
-  // USER LEVEL
-  const userLevel = useSelector((state: RootState) => state.user.level)   // userLevel - { easy: false, middle: false, higth: false }
+  const navigate = useNavigate()
 
-  // USER LEVEL LOGIC FOR RANDOM WORDS /str-58/
-  const [level] = useState(userLevel.easy ? 2 : userLevel.middle ? 4 : userLevel.hight ? 6 : 6)
+  const userLevel = useSelector((state: RootState) => state.user.level);
+  const words = useSelector((state: RootState) => state.words);
+  const [level] = useState(userLevel.easy ? 2 : userLevel.middle ? 4 : userLevel.hight ? 6 : 6);
+  const [randomWords, setRandomWords] = useState<WordState[]>([]);
+  const [text, setText] = useState('');
+  const [message, setMessage] = useState('');
 
-  // THIS WORD OBJECT - { id: 1, word: name, translate: имя, know: boolean }...
-  const words = useSelector((state: RootState) => state.words)
+  const currectWords = randomWords.filter(words => text.includes(words.word))
 
-  const [randomWords, setRandomWords] = useState<WordState[]>([])
+  const handleCheckWords = () => {
+    if(currectWords.length === level){
+      navigate('/successeful')
+    } else {
+      setMessage('Введите все слова')
+    }
+  }
 
-  const [text, setText] = useState('')
-
-  // GET RANDOM WORDS AND PUSH, setRandomWords /str-20/
   const handleGetRandomWords = (n: number) => {
 
     if (!words || words.words.length === 0) {
@@ -43,7 +51,7 @@ const PracticsWords: React.FC = () => {
   }
 
   useEffect(() => {
-    handleGetRandomWords(level)
+    handleGetRandomWords(level);
   }, [level])
 
   return (
@@ -58,19 +66,22 @@ const PracticsWords: React.FC = () => {
 
           <GetRandomWords randomWords={randomWords} text={text}/>
 
-          {text === "" ? <p style={{marginBottom: "20px"}}>Введите текст</p> : ""}
+          <p style={{color: "red"}}>{message}</p>
 
-          <textarea className={styles.content_area} onChange={(e) => {
-            setText(e.target.value)
-          }} placeholder='Введите текст...' value={text}></textarea>
+          <textarea
+              className={styles.content_area}
+              onChange={(e) => {
+                setText(e.target.value)
+              }}
+              placeholder='Введите текст...'
+              value={text}>
+          </textarea>
 
-          <Link to="/successeful">
-            <button onClick={() => {
-              handleGetRandomWords(level)
-            }} className='btn'>
-              Отправить
-            </button>
-          </Link>
+          <button
+              className='btn'
+              onClick={handleCheckWords}>
+            Отправить
+          </button>
 
         </div>
 

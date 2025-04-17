@@ -73,7 +73,7 @@ const LogPage: React.FC = () => {
           <h1>Войти</h1>
 
           {axiosError && (
-              <p>{message}</p>
+              <p style={{color: "red"}}>{message}</p>
           )}
 
           {missingValue && (
