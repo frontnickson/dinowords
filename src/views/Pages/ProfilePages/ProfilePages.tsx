@@ -43,6 +43,7 @@ const ProfilePages: React.FC = () => {
 
             if (response.status === 200 || response.status === 201) {
                 console.log("Данные успешно обновлены");
+                console.log(response.data)
                 dispatch(removeUser())
                 window.location.href = "/about"
             } else {

@@ -12,16 +12,11 @@ import styles from './GetRandomImage.module.scss'
 const GetRandomImage: React.FC = () => {
 
   const dispatch = useDispatch();
-
-  // LOCAL WORDS
+  
   const studiedWords = useSelector((state: RootState) => state.user.studiedImage);
   const [makeLoader, setMakeLoader] = useState(false)
   const [randomWords, setRandomWords] = useState<WordState[] | undefined>()
   const [randomImage, setRandomImage] = useState<number>(0)
-
-  // IF USER CLICK NOT CURRENT WORD,
-  // SHOW CURRENT WORD AND SHOW NEEXT,
-  // RANDOM WORDS
 
   const handleSetTimeOutImage = () => {
     setMakeLoader(true)

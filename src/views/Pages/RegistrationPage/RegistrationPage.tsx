@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
-import {setAge, setMan, setUser, setWoman} from '../../../data/slices/userSlice';
+import {setMan, setUser, setWoman} from '../../../data/slices/userSlice';
 import {RootState} from "../../../data/store/store.ts";
 import axios from 'axios';
 import AgeComponents from "../../components/AgeComponents/AgeComponents.tsx";
@@ -13,20 +13,14 @@ const RegisterPage: React.FC = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  // TOKEN
   const token = useSelector((state: RootState) => state.user.token)
-
-  // WRITE DATA ABOUT USER
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // TYPE FOR PASSWORD INPUT
   const [typePassword, setTypePassword] = useState('password');
 
-  // PARAMS USER
   const age = useSelector((state: RootState) => state.user.age)
+
   const man = useSelector((state: RootState) => state.user.man)
   const woman = useSelector((state: RootState) => state.user.woman)
 
@@ -35,12 +29,8 @@ const RegisterPage: React.FC = () => {
 
   const [message, setMessage] = useState<string>('')
 
-  useEffect(() => {
-    initGA();
-  }, []);
+  useEffect(() => {initGA()}, []);
 
-
-  // REGISTRATION ON THE SERVER
   const handleCheckRegistration = () => {
 
     if (name === '' || email === '' || password === '') {
@@ -69,7 +59,7 @@ const RegisterPage: React.FC = () => {
       return;
     }
 
-    if(password.length < 6){
+    if (password.length < 6) {
       setMessage('Слишком короткий пароль')
       return;
     }
@@ -83,7 +73,7 @@ const RegisterPage: React.FC = () => {
       setMessage('Выбирите возраст')
     }
 
-    if(age > 0 && email !== '' && name !== '' && email !== '' && (manChecked || womanChecked)) {
+    if (age > 0 && email !== '' && name !== '' && email !== '' && (manChecked || womanChecked)) {
       handleNewUser()
     }
 
@@ -138,7 +128,6 @@ const RegisterPage: React.FC = () => {
           setEmail('');
           setName('');
           setPassword('');
-          dispatch(setAge(0))
           setManChecked(false);
           setWomanChecked(false);
         }

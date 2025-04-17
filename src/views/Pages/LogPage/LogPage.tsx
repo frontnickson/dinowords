@@ -9,23 +9,12 @@ import styles from './LogPage.module.scss';
 const LogPage: React.FC = () => {
 
   const dispatch = useDispatch()
-
-  // GET DATA ABOUT USER,
-  // AND SEND DATA ON SERVER
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [type, setType] = useState("password");
-
-  // SHOW MESSAGE IF USER,
-  // DON'T WRITE DATA
-
   const [message, setMessage] = useState('');
   const [axiosError, setAxiosError] = useState(false);
   const [missingValue, setMissingValue] = useState(false);
-
-  // FUNCTION TO SEND DATA,
-  // ON THE SERVER
 
   const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -35,17 +24,13 @@ const LogPage: React.FC = () => {
     if (email === '' && password === '') {
       setMissingValue(true)
     } else {
-
       setMissingValue(false)
 
       try {
-
-        // THIS WE NEED EMAIL AND PASSWORD,
-        // TO SEND DATA ON THE SERVER
         const response = await axios.post('https://dinowords.ru/api/login', {email, password})
 
-
         if (response.data.user) {
+          console.log(response.data.user)
           dispatch(setUser(response.data.user))
           window.location.href = "/profile"
         }
