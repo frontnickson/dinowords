@@ -14,7 +14,6 @@ const RegisterPage: React.FC = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const token = useSelector((state: RootState) => state.user.token)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
