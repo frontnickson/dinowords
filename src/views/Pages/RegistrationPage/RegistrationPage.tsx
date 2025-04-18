@@ -8,6 +8,7 @@ import AgeComponents from "../../components/AgeComponents/AgeComponents.tsx";
 import {initGA, trackSignUp} from "../../../data/analytics/analytics.ts";
 
 import styles from './RegistrationPage.module.scss';
+import ReactGA from "react-ga4";
 
 const RegisterPage: React.FC = () => {
 
@@ -29,7 +30,9 @@ const RegisterPage: React.FC = () => {
 
   const [message, setMessage] = useState<string>('')
 
-  useEffect(() => {initGA()}, []);
+  useEffect(() => {
+    initGA()
+  }, []);
 
   const handleCheckRegistration = () => {
 
@@ -116,6 +119,7 @@ const RegisterPage: React.FC = () => {
         navigate('/profile')
 
         if (token) {
+          ReactGA.set({userID: res.data.user.id})
           trackSignUp();
         }
 
