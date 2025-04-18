@@ -10,7 +10,7 @@ export const initGA = () => {
 export const trackSignUp = () => {
   ReactGA.event({
     category: 'User',
-    action: 'sign_up',
+    action: 'new_user',
     label: 'Registration',
   });
 };

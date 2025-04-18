@@ -115,15 +115,11 @@ const RegisterPage: React.FC = () => {
           translate: false
         };
         dispatch(setUser(newUser));
-        console.log("успешно")
+        ReactGA.set({userID: res.data.user.id})
+        trackSignUp();
         navigate('/profile')
-
-        if (token) {
-          ReactGA.set({userID: res.data.user.id})
-          trackSignUp();
-        }
-
       }
+
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
