@@ -6,27 +6,24 @@ import {pushNewImage, WordState} from '../../../../data/slices/userSlice';
 import imageStart from '../../../images/banners/27013355_5200_4_06.png'
 import Loader from '../../Loader/Loader';
 import {RootState} from "../../../../data/store/store.ts";
+import CurrectWordsComponents from "../../CurrectWordsComponents/CurrectWordsComponents.tsx";
+
 
 import styles from './GetRandomImage.module.scss'
+import {useNavigate} from "react-router-dom";
 
 const GetRandomImage: React.FC = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   
   const studiedWords = useSelector((state: RootState) => state.user.studiedImage);
   const [makeLoader, setMakeLoader] = useState(false)
   const [randomWords, setRandomWords] = useState<WordState[] | undefined>()
   const [randomImage, setRandomImage] = useState<number>(0)
 
-  const handleSetTimeOutImage = () => {
-    setMakeLoader(true)
-    setTimeout(() => {
-      setMakeLoader(false)
-      handleGetRandomImage()
-    }, 500)
-  }
-
-  // TO GET 3 RANDOM WORDS
+  const [currectComponents,setCurrectComponents] = useState<boolean>(false)
+  const [currectWord,setCurrectWord] = useState<WordState>()
 
   const handleGetRandomImage = () => {
     const wordsList = []
@@ -42,41 +39,36 @@ const GetRandomImage: React.FC = () => {
 
     const sortList = wordsList.sort(() => Math.random() - 0.5)
     const randomImage = Math.floor(Math.random() * 3)
+
     setRandomImage(randomImage)
     setRandomWords(sortList)
   }
 
+  const handleClickCloseComponent = () => {
+    setCurrectComponents(false)
+  }
+
+  // CLICK
   const handleClickImage = (e: React.MouseEvent<HTMLLIElement>) => {
     const target = e.target as HTMLLIElement;
     const targetText = target.innerText;
 
     const currectElement = randomWords && randomWords[randomImage]
 
-    if (currectElement) {
-      setRandomWords((prev) => prev && prev.map(word => {
-        if (targetText === currectElement.word) {
-          if (word.word === targetText) {
-            return {...word, know: true}
-          }
-        }
-        return word;
-      }))
-    }
-
     if (targetText === currectElement?.word) {
+      navigate('/successeful')
+      handleGetRandomImage()
       dispatch(pushNewImage(currectElement))
     } else {
-      alert(`Правильное слово: ${currectElement?.word}, Перевод: ${currectElement?.translate}`);
-      handleSetTimeOutImage()
+      setCurrectComponents(true)
+      setCurrectWord(currectElement)
+      handleGetRandomImage()
     }
 
   }
 
   useEffect(() => {
-    // START WORK LOADER
     setMakeLoader(true)
-
-    // AFTER 0.5s START GET RANDOM IMAGE FUNCTION
     setTimeout(() => {
       setMakeLoader(false)
       handleGetRandomImage()
@@ -91,7 +83,7 @@ const GetRandomImage: React.FC = () => {
             (
                 <div className={styles.random}>
 
-                  <p>Вы узнали: {studiedWords.length} картинок</p>
+                  <p>Вы просмотрели: {studiedWords.length} картинок</p>
                   <img src={randomWords ? randomWords[randomImage].imageLink : imageStart} alt='image'
                        className={styles.random_image}/>
 
@@ -107,15 +99,12 @@ const GetRandomImage: React.FC = () => {
                     ))}
 
                   </div>
-
-                  <button onClick={() => {
-                    handleGetRandomImage();
-                    handleSetTimeOutImage()
-                    window.location.href="/successeful"
-                  }} className='btn'>Дальше
-                  </button>
                 </div>
             )}
+
+        {currectComponents && (
+            <CurrectWordsComponents currectWord={currectWord} handleClickCloseComponent={handleClickCloseComponent}/>
+        )}
       </div>
   );
 };

@@ -54,7 +54,6 @@ const LogPage: React.FC = () => {
 
         <form className='form'>
 
-          {/*TITLE*/}
           <h1>Войти</h1>
 
           {axiosError && (
@@ -65,7 +64,6 @@ const LogPage: React.FC = () => {
               <p style={{color: "red"}}>Вы не ввели данные</p>
           )}
 
-          {/*EMAIL*/}
           <input
               type="email"
               placeholder='Почта..'
@@ -98,12 +96,10 @@ const LogPage: React.FC = () => {
               required
           />
 
-          {/*BUTTON TO SEND DATA*/}
           <div>
             <button type="button" className={styles.btn} onClick={handleLogin}>Войти</button>
           </div>
 
-          {/*LINK IF USER HAVE PROFILE*/}
           <div style={{display: 'flex', flexWrap: "wrap", gap: "5px", alignItems: "center", justifyContent: 'center'}}>
             <p>Нет аккаунта?</p>
             <Link to="/registration"><p style={{color: "#49AF08"}}>Зарегестрируйтесь</p></Link>
