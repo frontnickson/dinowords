@@ -28,7 +28,7 @@ const PracticsWords: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const token = useSelector((state: RootState) => state.user.token)
+  // const token = useSelector((state: RootState) => state.user.token)
 
   const userLevel = useSelector((state: RootState) => state.user.level);
   const words = useSelector((state: RootState) => state.words);
