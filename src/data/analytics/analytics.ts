@@ -14,3 +14,20 @@ export const trackSignUp = () => {
     label: 'Registration',
   });
 };
+
+export const trackPracticsWords = () => {
+  ReactGA.event({
+    category: 'user',
+    action: 'practics_words',
+    label: 'Practics',
+  })
+}
+
+export const trackPracticsImages = () => {
+  ReactGA.event({
+    category: 'user',
+    action: 'practics_images',
+    label: 'Practics',
+  })
+}
+

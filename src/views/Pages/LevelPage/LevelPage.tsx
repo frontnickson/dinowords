@@ -6,6 +6,7 @@ import {setLevel, setTranslate} from '../../../data/slices/userSlice';
 
 
 import styles from './LevelPage.module.scss'
+import {trackPracticsWords} from "../../../data/analytics/analytics.ts";
 
 const LevelPage: React.FC = () => {
 
@@ -23,13 +24,9 @@ const LevelPage: React.FC = () => {
 
         <div className={styles.content}>
 
-          {/*TITLE*/}
-
           <div className={styles.content_title}>
             <h1>Выберите уровень сложности</h1>
           </div>
-
-          {/*BUTTONS LEVEL*/}
 
           <div className={styles.content_buttons}>
 
@@ -64,7 +61,7 @@ const LevelPage: React.FC = () => {
             {user.level.easy || user.level.hight || user.level.middle ? (
                 <Link to="/practics">
                   <div>
-                    <button className='btn'>Далее</button>
+                    <button className='btn' onClick={trackPracticsWords}>Далее</button>
                   </div>
                 </Link>
             ) : (

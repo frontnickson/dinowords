@@ -9,9 +9,9 @@ import {RootState} from "../../../../data/store/store.ts";
 
 const SuccessfulPage: React.FC = () => {
 
+  const navigate = useNavigate()
   const token = useSelector((state: RootState) => state.user.token)
   const [opactiy, setOpacity] = useState<number>(0)
-  const navigate = useNavigate()
 
   useEffect(() => {
     setTimeout(() => {
@@ -29,9 +29,9 @@ const SuccessfulPage: React.FC = () => {
               <div style={{display: "flex", flexDirection: "column", textAlign: "center", alignItems: "center", width:"100%"}}>
                 <h1>Что бы узнать результаты</h1>
                 <div style={{display: "flex", gap: "5px"}}>
-                  <Link to="/registration"><p>Зарегестрируйтесь</p></Link>
+                  <Link to="/registration"><p><u>Зарегестрируйтесь</u></p></Link>
                   <p>или</p>
-                  <Link to="/login"><p>Авторизуйтесь</p></Link>
+                  <Link to="/login"><p><u>Авторизуйтесь</u></p></Link>
                 </div>
               </div>
           )}

@@ -94,6 +94,7 @@ const RegisterPage: React.FC = () => {
       });
 
       if (res.data.token) {
+
         const newUser = {
           email: email,
           token: res.data.token,
@@ -113,6 +114,7 @@ const RegisterPage: React.FC = () => {
           stressTime: 0,
           translate: false
         };
+
         dispatch(setUser(newUser));
         ReactGA.set({userID: res.data.user.id})
         trackSignUp();

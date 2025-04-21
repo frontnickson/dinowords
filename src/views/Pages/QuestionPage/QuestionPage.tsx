@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import styles from './QuestionPage.module.scss'
 import {useNavigate} from "react-router-dom";
+import {trackPracticsImages} from "../../../data/analytics/analytics.ts";
 
 const QuestionPage: React.FC = () => {
 
@@ -58,8 +59,8 @@ const QuestionPage: React.FC = () => {
                       handleMessageError();
                       if (practicsClass) {
                         navigate('/level')
-                        console.log("hello")
                       } else if (practicsImageClass) {
+                        trackPracticsImages()
                         navigate('/record')
                       }
                     }}>

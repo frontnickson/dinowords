@@ -5,12 +5,12 @@
 
 .content{
     max-width: var(--display-width);
-    padding: 15px 15px;
+    padding: 25px 0px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
 
-    &_item{
+    &_block{
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;

@@ -12,6 +12,9 @@ import PracticsWords from '../../Pages/PracticsWords/PracticsWords';
 import SuccessfulPage from '../../Pages/PracticsWords/SuccessfulPage/SuccessfulPage';
 import ErrorComponents from '../../components/ErrorComponents/ErrorComponents';
 import RecordPage from '../../Pages/RecordPage/RecordPage';
+import FeedBackPage from "../../Pages/FeedBackPage/FeedBackPage.tsx";
+import ContactsPage from "../../Pages/ContactsPage/ContactsPage.tsx";
+import CheckWordsPage from "../../Pages/CheckWordsPage/CheckWordsPage.tsx";
 
 const AppRoutes: React.FC = () => {
 
@@ -25,6 +28,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/profile" element={<ProfilePages/>}/>
           <Route path="/login" element={<LogPage/>}/>
 
+          {/*ABOUT*/}
           <Route path="/about" element={<AboutPage/>}/>
 
           {/*ALL WORDS*/}
@@ -36,11 +40,18 @@ const AppRoutes: React.FC = () => {
           {/*QUESTION PAGE*/}
           <Route path="/quest" element={<QuestionPage/>}/>
 
+          {/*FEEDBACK PAGE*/}
+          <Route path="/feedback" element={<FeedBackPage/>}/>
+
+          {/*CONTACTS*/}
+          <Route path="/contacts" element={<ContactsPage/>}/>
+
           {/*CHOOSE LEVEL FOR PRACTICS WORDS*/}
           <Route path="/level" element={<LevelPage/>}/>
           <Route path="/practics" element={<PracticsWords/>}/>
 
           <Route path="/successeful" element={<SuccessfulPage/>}/>
+          <Route path="/check" element={<CheckWordsPage/>}/>
 
           {/*RANDOM IMAGE PAGE*/}
           <Route path="/record" element={<RecordPage/>}/>
