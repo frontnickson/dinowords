@@ -106,7 +106,7 @@ const ProfilePages: React.FC = () => {
                                 <div className={styles.content_infoProgressStatusInfo}>
                                     <div className={styles.content_infoProgressStatusInfoTitle}>
                                         <p>Начинающий</p>
-                                        <p>{studiedWords?.length}/1000</p>
+                                        <p>{studiedWords?.length}/100</p>
                                     </div>
 
 
