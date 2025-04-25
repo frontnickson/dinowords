@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 
 import styles from './PracticsWords.module.scss'
 import {setWordsText} from "../../../data/slices/wordsSlice.ts";
+
 // import axios from "axios";
 // import {analyzeText, detectText, suggestText} from "../../../data/api/api.ts";
 
@@ -28,19 +29,12 @@ const PracticsWords: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const token = useSelector((state: RootState) => state.user.token)
-
-  const userLevel = useSelector((state: RootState) => state.user.level);
   const words = useSelector((state: RootState) => state.words);
+  const userLevel = useSelector((state: RootState) => state.user.level);
   const [level] = useState(userLevel.easy ? 2 : userLevel.middle ? 4 : userLevel.hight ? 6 : 6);
-
   const [randomWords, setRandomWords] = useState<WordState[]>([]);
   const [text, setText] = useState('');
   const [message, setMessage] = useState('');
-
-  // const [badText, setBadText] = useState<BadTextItem[]>([]);
-  // const [statusLang, setStatusLang] = useState('');
-
   const currectWords = randomWords.filter(words => text.includes(words.word))
 
   const handleCheckWords = () => {
@@ -50,26 +44,6 @@ const PracticsWords: React.FC = () => {
       setMessage('Заполните все слова')
     }
   }
-
-  // const checkTextApi = async () => {
-  //   try {
-  //     // Считываем ошибки
-  //     const responceAnalyzeText = await axios.get(analyzeText + text)
-  //     const detectedText = await axios.get(detectText + text)
-  //     console.log(responceAnalyzeText)
-  //
-  //     if (detectedText) {
-  //       setStatusLang(detectedText.data.response.language)
-  //     }
-  //
-  //     if(responceAnalyzeText) {
-  //       setBadText(responceAnalyzeText.data.response.grammar.errors)
-  //     }
-  //
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   const handleGetRandomWords = (n: number) => {
 

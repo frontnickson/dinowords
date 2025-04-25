@@ -26,18 +26,15 @@ const CheckWordsPage: React.FC = () => {
   const wordsFromPracticsPage = useSelector((state: RootState) => state.words.wordsText)
   const [editText, setEditText] = useState<string>('')
   const [badText, setBadText] = useState<BadTextItem[]>([])
-
   const [activeLoader, setActiveLoader] = useState<boolean>(false)
 
   useEffect(() => {
 
     const checkTextApi = async () => {
       try {
-        // Считываем ошибки
         const responceAnalyzeText = await axios.get(analyzeText + wordsFromPracticsPage)
-
-        // доработка текста
         const responceSuggestText = await axios.get(suggestText + wordsFromPracticsPage)
+
         if (responceSuggestText && responceAnalyzeText) {
           setBadText(responceAnalyzeText.data.response.grammar.errors)
           setEditText(responceSuggestText.data.response.corrected)

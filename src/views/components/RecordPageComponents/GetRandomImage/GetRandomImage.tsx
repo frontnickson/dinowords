@@ -21,7 +21,6 @@ const GetRandomImage: React.FC = () => {
   const [makeLoader, setMakeLoader] = useState(false)
   const [randomWords, setRandomWords] = useState<WordState[] | undefined>()
   const [randomImage, setRandomImage] = useState<number>(0)
-
   const [currectComponents,setCurrectComponents] = useState<boolean>(false)
   const [currectWord,setCurrectWord] = useState<WordState>()
 
@@ -48,7 +47,6 @@ const GetRandomImage: React.FC = () => {
     setCurrectComponents(false)
   }
 
-  // CLICK
   const handleClickImage = (e: React.MouseEvent<HTMLLIElement>) => {
     const target = e.target as HTMLLIElement;
     const targetText = target.innerText;
