@@ -12,4 +12,5 @@ b) view have files like components/pages/styles/images
 2/ How start project?
 
 a) you need install project and run in console npm install
+b) and if you see project work, you need run: npm run dev
 
